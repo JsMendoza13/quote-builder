@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#aab3ab"
+    tools:context=".cards">
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="@dimen/_100sdp"
+        android:layout_height="@dimen/_65sdp"
+        android:layout_marginLeft="@dimen/_15sdp"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:src="@drawable/logo"
+        tools:ignore="ImageContrastCheck" />
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center"
+        android:text="Cotización"
+        android:shadowRadius="10"
+        android:shadowColor="@color/black"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_35ssp"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:layout_marginRight="@dimen/_15sdp"
+        android:layout_alignBottom="@+id/logo"
+        android:layout_alignParentRight="true"
+        android:textStyle="bold" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/buttons"
+        android:layout_below="@+id/title"
+        tools:ignore="SpeakableTextPresentCheck,SpeakableTextPresentCheck">
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/containerRV"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/buttons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_15sdp"
+        android:gravity="center"
+        android:layout_alignParentBottom="true"
+        android:background="#eee0b7">
+
+        <Button
+            android:id="@+id/rehacer"
+            style="@style/button_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/_15sdp"
+            android:text="Rehacer"
+            tools:ignore="TextContrastCheck" />
+
+        <Button
+            android:id="@+id/calcular"
+            style="@style/button_style"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_15sdp"
+            android:text="Calcular"
+            android:drawableRight="@drawable/row" />
+
+    </LinearLayout>
+
+</RelativeLayout>

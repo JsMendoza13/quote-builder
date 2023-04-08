@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#aab3ab"
+    android:padding="@dimen/_15sdp"
+    tools:context=".app_introduction">
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="@dimen/_100sdp"
+        android:layout_height="@dimen/_65sdp"
+        android:src="@drawable/logo" />
+
+    <Button
+        android:id="@+id/continuar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Continuar"
+        style="@style/button_style"
+        android:layout_alignParentRight="true" />
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center"
+        android:text="Introducción"
+        android:shadowRadius="10"
+        android:shadowColor="@color/black"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_35ssp"
+        android:layout_below="@id/logo"
+        android:textStyle="bold" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/title"
+        android:layout_marginTop="@dimen/_10sdp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="La aplicación, genera automáticamente un costo total de todos los detalles que componen la cotización. Asimismo, se incluye un botón de Mostrar detalles que permite acceder a información más detallada, como la cantidad de materiales y su costo total, así como el valor de la mano de obra calculado en días. De esta forma, el usuario cuenta con una herramienta práctica y eficiente para realizar cotizaciones de manera ágil y sencilla, optimizando su tiempo y recursos."
+            android:textColor="@color/white"
+            android:textSize="@dimen/_18ssp"
+            android:padding="@dimen/_10sdp" />
+
+    </ScrollView>
+
+</RelativeLayout>
