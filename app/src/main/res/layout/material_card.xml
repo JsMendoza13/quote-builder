@@ -23,7 +23,7 @@
             android:padding="@dimen/_6sdp">
             
             <ImageView
-                android:id="@+id/imgMaterial"
+                android:id="@+id/materialImg"
                 android:layout_width="@dimen/_70sdp"
                 android:layout_height="@dimen/_70sdp"
                 android:layout_alignParentLeft="true"
@@ -40,26 +40,27 @@
                 android:layout_alignParentTop="true"
                 android:layout_marginStart="@dimen/_4sdp"
                 android:layout_marginTop="@dimen/_2sdp"
-                android:layout_toEndOf="@id/imgMaterial"
+                android:layout_toEndOf="@id/materialImg"
                 android:orientation="vertical"
                 android:layout_marginLeft="@dimen/_4sdp"
-                android:layout_toRightOf="@id/imgMaterial">
+                android:layout_toRightOf="@id/materialImg">
 
                 <TextView
-                    android:id="@+id/nameMaterial"
-                    android:layout_width="match_parent"
+                    android:id="@+id/materialName"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Material"
-                    android:textSize="@dimen/_24ssp"
+                    android:textSize="@dimen/_20ssp"
                     android:textColor="@color/black"
                     android:textStyle="bold"
                     android:layout_gravity="center"/>
 
                 <EditText
-                    android:id="@+id/cantMaterial"
-                    android:layout_width="match_parent"
+                    android:id="@+id/materialCant"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:hint="Cantidad"
+                    android:inputType="number"
                     tools:ignore="TouchTargetSizeCheck" />
 
             </LinearLayout>
@@ -75,22 +76,39 @@
                 android:layout_marginRight="@dimen/_6sdp">
 
                 <TextView
-                    android:id="@+id/statusMaterial"
+                    android:id="@+id/materialStatus"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Disponible"
                     android:textStyle="bold"
                     android:textSize="@dimen/_15ssp"/>
 
-                <TextView
-                    android:id="@+id/priceMaterial"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Precio"
-                    android:layout_gravity="center"
-                    android:textStyle="bold"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_15ssp"/>
+                    android:layout_gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="$"
+                        android:layout_gravity="center"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_15ssp"/>
+
+                    <TextView
+                        android:id="@+id/materialPrice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Precio"
+                        android:textStyle="bold"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_15ssp"/>
+
+                </LinearLayout>
+
+
 
             </LinearLayout>
 

@@ -33,20 +33,22 @@
         android:layout_alignParentRight="true"
         android:textStyle="bold" />
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/buttons"
-        android:layout_below="@+id/title"
-        tools:ignore="SpeakableTextPresentCheck,SpeakableTextPresentCheck">
+<!--    <ScrollView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:layout_above="@+id/buttons"-->
+<!--        android:layout_below="@+id/title"-->
+<!--        tools:ignore="SpeakableTextPresentCheck,SpeakableTextPresentCheck">-->
 
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/containerRV"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_above="@+id/buttons"
+            android:layout_below="@+id/title"/>
 
-    </ScrollView>
+<!--    </ScrollView>-->
 
     <LinearLayout
         android:id="@+id/buttons"
