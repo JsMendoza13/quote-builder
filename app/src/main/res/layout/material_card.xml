@@ -31,7 +31,8 @@
                 android:layout_marginTop="-12dp"
                 android:layout_marginRight="-12dp"
                 android:layout_alignParentRight="true"
-                android:background="@drawable/checkbox_selector" />
+                android:background="@drawable/checkbox_selector"
+                style="@style/checkbox_style"/>
 
             <ImageView
                 android:id="@+id/materialImg"
@@ -39,11 +40,10 @@
                 android:layout_height="@dimen/_70sdp"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
+                android:paddingRight="@dimen/_5sdp"
+                android:paddingLeft="@dimen/_5sdp"
                 android:layout_gravity="center"
-                android:paddingLeft="@dimen/_14sdp"
-                android:paddingRight="@dimen/_14sdp"
                 android:src="@drawable/logo"
-                android:scaleType="fitCenter"
                 android:background="@drawable/img_border" />
 
             <LinearLayout
@@ -73,7 +73,8 @@
                     android:layout_height="wrap_content"
                     android:hint="Cantidad"
                     android:inputType="number"
-                    tools:ignore="TouchTargetSizeCheck" />
+                    tools:ignore="TouchTargetSizeCheck"
+                    style="@style/edittext_style"/>
 
             </LinearLayout>
 
