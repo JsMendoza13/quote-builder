@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/material_cv"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:animateLayoutChanges="true"
-    app:cardCornerRadius="@dimen/_20sdp"
+    app:cardCornerRadius="@dimen/_15sdp"
+    app:strokeColor="#e8caaf"
+    app:strokeWidth="@dimen/_2sdp"
     app:cardElevation="@dimen/_4sdp"
     app:cardUseCompatPadding="true">
 
@@ -21,7 +23,16 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:padding="@dimen/_6sdp">
-            
+
+            <CheckBox
+                android:id="@+id/checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-12dp"
+                android:layout_marginRight="-12dp"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/checkbox_selector" />
+
             <ImageView
                 android:id="@+id/materialImg"
                 android:layout_width="@dimen/_70sdp"
@@ -31,33 +42,34 @@
                 android:layout_gravity="center"
                 android:paddingLeft="@dimen/_14sdp"
                 android:paddingRight="@dimen/_14sdp"
-                android:src="@drawable/logo" />
-            
+                android:src="@drawable/logo"
+                android:scaleType="fitCenter"
+                android:background="@drawable/img_border" />
+
             <LinearLayout
                 android:id="@+id/linearLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_marginStart="@dimen/_4sdp"
+                android:layout_marginLeft="@dimen/_4sdp"
                 android:layout_marginTop="@dimen/_2sdp"
                 android:layout_toEndOf="@id/materialImg"
-                android:orientation="vertical"
-                android:layout_marginLeft="@dimen/_4sdp"
-                android:layout_toRightOf="@id/materialImg">
+                android:layout_toRightOf="@id/materialImg"
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/materialName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Material"
-                    android:textSize="@dimen/_20ssp"
                     android:textColor="@color/black"
-                    android:textStyle="bold"
-                    android:layout_gravity="center"/>
+                    android:textSize="@dimen/_15ssp"
+                    android:textStyle="bold" />
 
                 <EditText
                     android:id="@+id/materialCant"
-                    android:layout_width="wrap_content"
+                    android:layout_width="@dimen/_100sdp"
                     android:layout_height="wrap_content"
                     android:hint="Cantidad"
                     android:inputType="number"
@@ -68,20 +80,20 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_centerVertical="true"
-                android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
                 android:layout_marginEnd="@dimen/_6sdp"
-                android:layout_marginRight="@dimen/_6sdp">
+                android:layout_marginRight="@dimen/_6sdp"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/materialStatus"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Disponible"
-                    android:textStyle="bold"
-                    android:textSize="@dimen/_15ssp"/>
+                    android:textSize="@dimen/_13ssp"
+                    android:textStyle="bold" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -91,29 +103,28 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="$"
                         android:layout_gravity="center"
-                        android:textStyle="bold"
+                        android:text="$"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/_15ssp"/>
+                        android:textSize="@dimen/_15ssp"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/materialPrice"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Precio"
-                        android:textStyle="bold"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/_15ssp"/>
+                        android:textSize="@dimen/_15ssp"
+                        android:textStyle="bold" />
 
                 </LinearLayout>
-
 
 
             </LinearLayout>
 
         </RelativeLayout>
-        
+
     </LinearLayout>
 
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

@@ -1,14 +1,18 @@
 package com.example.app_cotizacion.model;
 
+import com.google.android.material.card.MaterialCardView;
+
 public class Material {
     String materialImg, materialName, materialPrice, materialStatus;
+    MaterialCardView materialCard;
     public Material() {}
 
-    public Material(String materialImg, String materialName, String materialPrice, String materialStatus) {
+    public Material(String materialImg, String materialName, String materialPrice, String materialStatus, MaterialCardView materialCard) {
         this.materialImg = materialImg;
         this.materialName = materialName;
         this.materialPrice = materialPrice;
         this.materialStatus = materialStatus;
+        this.materialCard = materialCard;
     }
 
     public String getMaterialImg() {
@@ -41,5 +45,13 @@ public class Material {
 
     public void setMaterialStatus(String materialStatus) {
         this.materialStatus = materialStatus;
+    }
+
+    public MaterialCardView getMaterialCard() {
+        return materialCard;
+    }
+
+    public void setMaterialCard(MaterialCardView materialCard) {
+        this.materialCard = materialCard;
     }
 }

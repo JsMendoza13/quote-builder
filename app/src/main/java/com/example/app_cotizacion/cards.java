@@ -9,15 +9,19 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import com.example.app_cotizacion.adapter.MaterialAdapter;
 import com.example.app_cotizacion.model.Material;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.material.card.MaterialCardView;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
 public class cards extends Fragment {
     RecyclerView mRecycler;
+    MaterialCardView materialCard;
+    EditText materialCant;
     MaterialAdapter mAdapter;
     FirebaseFirestore mFirestore;
     private View view;
@@ -38,6 +42,10 @@ public class cards extends Fragment {
         view = inflater.inflate(R.layout.fragment_cards, container, false);
         mFirestore = FirebaseFirestore.getInstance();
         mRecycler = view.findViewById(R.id.containerRV);
+
+//        materialCard = view.findViewById(R.id.material_cv); //checkable
+//        materialCant = view.findViewById(R.id.materialCant);
+
         mRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
         Query query = mFirestore.collection("materials");
 
@@ -46,6 +54,7 @@ public class cards extends Fragment {
         mAdapter = new MaterialAdapter(firestoreRecyclerOptions);
         mAdapter.notifyDataSetChanged();
         mRecycler.setAdapter(mAdapter);
+
         return view;
     }
 
