@@ -85,7 +85,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_marginEnd="@dimen/_6sdp"
                 android:layout_marginRight="@dimen/_6sdp"
-                android:layout_marginTop="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_22sdp"
                 android:orientation="vertical">
 
                 <TextView
