@@ -58,46 +58,14 @@ public class MaterialAdapter extends FirestoreRecyclerAdapter<Material, Material
         holder.materialPrice.setText(model.getMaterialPrice());
         holder.materialStatus.setText(model.getMaterialStatus());
 
-//        model.setDocumentSnapshot(getSnapshots().getSnapshot(position));
-//        DocumentSnapshot materialSnapshot = model.getDocumentSnapshot();
-//
-//        // agregar un listener para actualizar el valor isSelected en Firestore cuando se hace clic en la tarjeta
-//        holder.check.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-//            @Override
-//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                FirebaseFirestore db = FirebaseFirestore.getInstance();
-//                String materialId = materialSnapshot.getId();
-//                DocumentReference materialRef = db.collection("materials").document(materialId);
-//
-//                materialRef.update("isSelected", isChecked);
-//
-//                if (isChecked) {
-//                    // Actualizar la vista de la tarjeta cuando se marca el CheckBox
-//                    holder.materialId.setText(materialId);
-//                    holder.check.setChecked(true);
-//                    holder.materialCardView.setCardBackgroundColor(ContextCompat.getColor(buttonView.getContext(), R.color.light_gray));
-//                } else {
-//                    // Actualizar la vista de la tarjeta cuando se desmarca el CheckBox
-//                    holder.materialId.setText("");
-//                    holder.check.setChecked(false);
-//                    holder.materialCardView.setCardBackgroundColor(ContextCompat.getColor(buttonView.getContext(), android.R.color.white));
-//                }
-//            }
-//        });
-
-//        model.setDocumentSnapshot(getSnapshots().getSnapshot(position));
-//        DocumentSnapshot materialSnapshot = model.getDocumentSnapshot();
-
         holder.check.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     FirebaseFirestore db = FirebaseFirestore.getInstance();
-                    DocumentSnapshot materialSnapshot = getSnapshots().getSnapshot(holder.getAdapterPosition());
+                    DocumentSnapshot materialSnapshot = getSnapshots().getSnapshot(holder.getBindingAdapterPosition());
                     String materialId = materialSnapshot.getId();
                     DocumentReference materialRef = db.collection("materials").document(materialId);
-
                     materialRef.update("isSelected", isChecked);
-                    holder.check.setChecked(isChecked);
 
                 if (isChecked) {
                     holder.materialCardView.setCardBackgroundColor(ContextCompat.getColor(buttonView.getContext(), R.color.light_gray));

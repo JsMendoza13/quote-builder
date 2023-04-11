@@ -3,12 +3,15 @@ package com.example.app_cotizacion;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
@@ -29,6 +32,7 @@ public class cards extends Fragment {
     CheckBox check;
     FirebaseFirestore db;
     Material material= new Material();
+    Button calcular, rehacer;
     private View view;
 
     public cards() {
@@ -48,9 +52,11 @@ public class cards extends Fragment {
         db = FirebaseFirestore.getInstance();
         mRecycler = view.findViewById(R.id.containerRV);
         check = view.findViewById(R.id.checkbox);
+        calcular = view.findViewById(R.id.calcular);
 
         materialCard = view.findViewById(R.id.material_cv);
         materialCant = view.findViewById(R.id.materialCant);
+        rehacer = view.findViewById(R.id.rehacer);
 
         mRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
         Query query = db.collection("materials");
@@ -58,26 +64,49 @@ public class cards extends Fragment {
         FirestoreRecyclerOptions<Material> firestoreRecyclerOptions = new FirestoreRecyclerOptions.Builder<Material>().setQuery(query, Material.class).build();
 
         mAdapter = new MaterialAdapter(firestoreRecyclerOptions);
+        mAdapter.notifyDataSetChanged();
         mRecycler.setAdapter(mAdapter);
 
-        String materialPrice = material.getMaterialPrice();
-        double price = Double.parseDouble(materialPrice);
-        String materialC = materialCant.getText().toString();
-        double cantidad = Double.parseDouble(materialC);
+        calcular.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                total fragmentTotal = new total();
+                fragmentTransaction.replace(R.id.container, fragmentTotal);
+                fragmentTransaction.commit();
 
-        double acmTotal = 0.0;
+                double acmTotal = 0.0;
+                for (int i = 0; i < mAdapter.getItemCount(); i++) {
+                    Material material = mAdapter.getItem(i);
+                    double price = Double.parseDouble(material.getMaterialPrice());
+                    if (!materialCant.getText().toString().isEmpty()) {
+                        double cantidad = Double.parseDouble(materialCant.getText().toString());
+                        if (check.isChecked()) {
+                            double total = price * cantidad;
+                            acmTotal += total;
+                        }
+                    }
+                }
 
-        for (int i = 0; i < mAdapter.getItemCount(); i++) {
-            Material material = mAdapter.getItem(i);
-            if (material.isSelected()) {
-                double total = price * cantidad;
-                acmTotal += total;
+
+
+                Bundle bundle = new Bundle();
+                bundle.putDouble("total", acmTotal);
+
+                fragmentTotal.setArguments(bundle);
             }
-        }
+        });
 
-        // Asignamos el valor del total acumulado a la vista
-//        TextView totalTextView = view.findViewById(R.id.totalTextView);
-//        totalTextView.setText(String.format(Locale.getDefault(), "%.2f", acmTotal));
+        rehacer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (check.isChecked()) {
+                    check.setChecked(false);
+                }
+                materialCant.setText("");
+            }
+        });
 
         return view;
     }

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#aab3ab"
-    tools:context=".cards">
+    tools:context=".total">
 
     <LinearLayout
         android:id="@+id/header"
@@ -44,12 +44,38 @@
 
     </LinearLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/containerRV"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/buttons"
-        android:layout_below="@+id/header"/>
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="#c4cbb7"
+        android:paddingBottom="@dimen/_50sdp"
+        android:paddingTop="@dimen/_50sdp"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:shadowColor="@color/black"
+            android:shadowRadius="10"
+            android:text="Costo Total"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_40ssp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/total"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:gravity="center"
+            android:textColor="#5E5E5E"
+            android:textSize="@dimen/_30ssp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/buttons"
@@ -61,25 +87,16 @@
         android:background="#eee0b7">
 
         <Button
-            android:id="@+id/rehacer"
+            android:id="@+id/nuevo"
             style="@style/button_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/_15sdp"
-            android:text="Rehacer"
             android:layout_marginBottom="@dimen/_2sdp"
+            android:text="Nueva cotización"
             tools:ignore="TextContrastCheck" />
-
-        <Button
-            android:id="@+id/calcular"
-            style="@style/button_style"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/_15sdp"
-            android:text="Calcular"
-            android:layout_marginBottom="@dimen/_2sdp"
-            android:drawableRight="@drawable/row" />
 
     </LinearLayout>
 
 </RelativeLayout>
+
