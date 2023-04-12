@@ -68,7 +68,7 @@
                     android:textStyle="bold" />
 
                 <EditText
-                    android:id="@+id/materialCant"
+                    android:id="@+id/materialAmount"
                     android:layout_width="@dimen/_100sdp"
                     android:layout_height="wrap_content"
                     android:hint="Cantidad"

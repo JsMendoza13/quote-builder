@@ -1,13 +1,12 @@
 package com.example.app_cotizacion.adapter;
 
-import static com.bumptech.glide.util.Util.getSnapshot;
-
-import android.os.Handler;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,28 +19,16 @@ import com.example.app_cotizacion.R;
 import com.example.app_cotizacion.model.Material;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.card.MaterialCardView;
-import com.google.firebase.firestore.DocumentId;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-import org.w3c.dom.Document;
-
-import java.util.ArrayList;
-import java.util.List;
-
 public class MaterialAdapter extends FirestoreRecyclerAdapter<Material, MaterialAdapter.ViewHolder> {
-    /**
-     * Create a new RecyclerView adapter that listens to a Firestore Query.  See {@link
-     * FirestoreRecyclerOptions} for configuration options.
-     *
-     * @param
-     */
-    public DocumentSnapshot getDocumentSnapshot(int position) {
-        return getItem(position).getDocumentSnapshot();
-    }
+
+    String sprice, samount;
+    double price, amount, totalUnit, acmTotal;
+
     public MaterialAdapter(@NonNull FirestoreRecyclerOptions<Material> options) {
         super(options);
     }
@@ -58,22 +45,38 @@ public class MaterialAdapter extends FirestoreRecyclerAdapter<Material, Material
         holder.materialPrice.setText(model.getMaterialPrice());
         holder.materialStatus.setText(model.getMaterialStatus());
 
-        holder.check.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    FirebaseFirestore db = FirebaseFirestore.getInstance();
-                    DocumentSnapshot materialSnapshot = getSnapshots().getSnapshot(holder.getBindingAdapterPosition());
-                    String materialId = materialSnapshot.getId();
-                    DocumentReference materialRef = db.collection("materials").document(materialId);
-                    materialRef.update("isSelected", isChecked);
+        DocumentSnapshot materialSnapshot = getSnapshots().getSnapshot(holder.getBindingAdapterPosition());
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        String materialId = materialSnapshot.getId();
+        DocumentReference materialRef = db.collection("materials").document(materialId);
+        db.collection("materials").whereEqualTo("isSelected", false);
 
-                if (isChecked) {
-                    holder.materialCardView.setCardBackgroundColor(ContextCompat.getColor(buttonView.getContext(), R.color.light_gray));
-                } else {
-                    holder.materialCardView.setCardBackgroundColor(ContextCompat.getColor(buttonView.getContext(), android.R.color.white));
-                }
+        holder.check.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            materialRef.update("isSelected", isChecked);
+
+            if (isChecked) {
+                holder.materialCardView.setCardBackgroundColor(ContextCompat.getColor(buttonView.getContext(), R.color.light_gray));
+            } else {
+                holder.materialCardView.setCardBackgroundColor(ContextCompat.getColor(buttonView.getContext(), android.R.color.white));
             }
         });
+
+        holder.materialAmount.setOnHoverListener(new View.OnHoverListener() {
+            @Override
+            public boolean onHover(View v, MotionEvent event) {
+                sprice = model.getMaterialPrice();
+                samount = holder.materialAmount.getText().toString();
+                price = Double.parseDouble(sprice);
+                amount = Double.parseDouble(samount);
+                totalUnit = price * amount;
+                return false;
+            }
+        });
+
+        for (int i = 0; i < getItemCount(); i++) {
+            Material material = getItem(i);
+            acmTotal += totalUnit;
+        }
     }
 
     @NonNull
@@ -83,9 +86,10 @@ public class MaterialAdapter extends FirestoreRecyclerAdapter<Material, Material
         return new ViewHolder(v);
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView materialImg;
         TextView materialName, materialPrice, materialStatus;
+        EditText materialAmount;
         CheckBox check;
         MaterialCardView materialCardView;
 
@@ -97,6 +101,7 @@ public class MaterialAdapter extends FirestoreRecyclerAdapter<Material, Material
             materialName = itemView.findViewById(R.id.materialName);
             materialPrice = itemView.findViewById(R.id.materialPrice);
             materialStatus = itemView.findViewById(R.id.materialStatus);
+            materialAmount = itemView.findViewById(R.id.materialAmount);
         }
     }
 }

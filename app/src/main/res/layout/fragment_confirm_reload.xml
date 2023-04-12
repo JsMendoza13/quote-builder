@@ -1,0 +1,45 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent">
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/background_confirm"
+        android:paddingBottom="@dimen/_10sdp"
+        android:paddingTop="@dimen/_10sdp"
+        android:layout_gravity="center">
+
+        <TextView
+            android:id="@+id/confirm_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="¿Desea rehacer la cotización?"
+            android:textSize="@dimen/_30ssp"
+            android:textStyle="bold"/>
+
+        <Button
+            android:id="@+id/yes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="si"
+            android:layout_marginLeft="@dimen/_60sdp"
+            android:layout_marginTop="@dimen/_100sdp"
+            android:background="@drawable/background_button"
+            style="@style/button_style"/>
+
+        <Button
+            android:id="@+id/no"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="no"
+            android:layout_marginLeft="@dimen/_180sdp"
+            android:layout_marginTop="@dimen/_100sdp"
+            android:background="@drawable/background_button"
+            style="@style/button_style"/>
+
+    </FrameLayout>
+
+</FrameLayout>
