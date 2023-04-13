@@ -8,6 +8,13 @@
         <item name="android:textColor">@color/white</item>
         <item name="android:textStyle">bold</item>
     </style>
+    <style name="button_style2">
+        <item name="background">@drawable/background_button</item>
+        <item name="backgroundTint">#e8caaf</item>
+        <item name="android:textSize">@dimen/_15ssp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textStyle">bold</item>
+    </style>
     <style name="checkbox_style" parent="@android:style/Widget.CompoundButton.CheckBox">
         <item name="android:buttonTint">#e8caaf</item>
     </style>

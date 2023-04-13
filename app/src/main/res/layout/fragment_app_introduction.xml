@@ -41,13 +41,26 @@
         android:layout_below="@+id/title"
         android:layout_marginTop="@dimen/_10sdp">
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="La aplicación, genera automáticamente un costo total de todos los detalles que componen la cotización. Asimismo, se incluye un botón de Mostrar detalles que permite acceder a información más detallada, como la cantidad de materiales y su costo total, así como el valor de la mano de obra calculado en días. De esta forma, el usuario cuenta con una herramienta práctica y eficiente para realizar cotizaciones de manera ágil y sencilla, optimizando su tiempo y recursos."
-            android:textColor="@color/white"
-            android:textSize="@dimen/_18ssp"
-            android:padding="@dimen/_10sdp" />
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="La aplicación genera automáticamente el costo de todos los materiales implementados, lo que proporciona al usuario una herramienta práctica y eficiente para realizar cotizaciones de manera ágil y sencilla. De esta manera, se optimizan los recursos y el tiempo."
+                android:textColor="@color/white"
+                android:textSize="@dimen/_18ssp"
+                android:padding="@dimen/_10sdp" />
+
+            <ImageView
+                android:id="@+id/img_introduction"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/img_introduction"/>
+
+        </LinearLayout>
 
     </ScrollView>
 

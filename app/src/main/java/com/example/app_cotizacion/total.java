@@ -12,6 +12,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+
 import java.util.Locale;
 
 public class total extends Fragment {
@@ -27,26 +32,39 @@ public class total extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        if (getArguments() != null) {
-            acmTotal = getArguments().getDouble("total");
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_total, container, false);
 
+        acmTotal = getArguments().getDouble("total");
         total = view.findViewById(R.id.total);
         nuevo = view.findViewById(R.id.nuevo);
 
-        total.setText(String.format(Locale.getDefault(), "%.2f", acmTotal));
+        total.setText(String.valueOf(acmTotal));
 
         nuevo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
+                CollectionReference materialsRef = db.collection("materials");
+                Query query2 = materialsRef.whereEqualTo("isSelected", true);
+                query2.get().addOnCompleteListener(task -> {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        // Update the "isSelected" field to true
+                        materialsRef.document(document.getId()).update("isSelected", false);
+                    }
+                });
+
+                Query query_materialAmount = materialsRef.whereNotEqualTo("materialAmount", 0);
+                query_materialAmount.get().addOnCompleteListener(task -> {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        materialsRef.document(document.getId()).update("materialAmount", 0);
+                    }
+                });
+
                 FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 cards fragmentCards = new cards();

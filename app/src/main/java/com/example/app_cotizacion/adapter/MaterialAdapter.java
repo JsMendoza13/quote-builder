@@ -1,5 +1,8 @@
 package com.example.app_cotizacion.adapter;
 
+import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -12,22 +15,28 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.app_cotizacion.R;
 import com.example.app_cotizacion.model.Material;
+import com.example.app_cotizacion.total;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.material.card.MaterialCardView;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 public class MaterialAdapter extends FirestoreRecyclerAdapter<Material, MaterialAdapter.ViewHolder> {
 
-    String sprice, samount;
-    double price, amount, totalUnit, acmTotal;
+    public String samount;
+    public double amount, totalUnit, acmTotal;
 
     public MaterialAdapter(@NonNull FirestoreRecyclerOptions<Material> options) {
         super(options);
@@ -49,7 +58,6 @@ public class MaterialAdapter extends FirestoreRecyclerAdapter<Material, Material
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         String materialId = materialSnapshot.getId();
         DocumentReference materialRef = db.collection("materials").document(materialId);
-        db.collection("materials").whereEqualTo("isSelected", false);
 
         holder.check.setOnCheckedChangeListener((buttonView, isChecked) -> {
             materialRef.update("isSelected", isChecked);
@@ -61,22 +69,35 @@ public class MaterialAdapter extends FirestoreRecyclerAdapter<Material, Material
             }
         });
 
-        holder.materialAmount.setOnHoverListener(new View.OnHoverListener() {
+        holder.materialAmount.addTextChangedListener(new TextWatcher() {
             @Override
-            public boolean onHover(View v, MotionEvent event) {
-                sprice = model.getMaterialPrice();
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                String matAmount = holder.materialAmount.getText().toString();
+                if (matAmount.isEmpty()) {
+                    FirebaseFirestore db = FirebaseFirestore.getInstance();
+                    CollectionReference materialsRef = db.collection("materials");
+                    Query queryAmount = materialsRef.whereNotEqualTo("materialAmount", 0);
+                    queryAmount.get().addOnCompleteListener(task -> {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            materialRef.update("materialAmount", 0);
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
                 samount = holder.materialAmount.getText().toString();
-                price = Double.parseDouble(sprice);
                 amount = Double.parseDouble(samount);
-                totalUnit = price * amount;
-                return false;
+                materialRef.update("materialAmount", amount);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // Este método se llama después de que el texto cambie.
             }
         });
 
-        for (int i = 0; i < getItemCount(); i++) {
-            Material material = getItem(i);
-            acmTotal += totalUnit;
-        }
     }
 
     @NonNull

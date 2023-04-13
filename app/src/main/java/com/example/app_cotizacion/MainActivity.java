@@ -7,6 +7,11 @@ import androidx.fragment.app.FragmentTransaction;
 import android.os.Bundle;
 import android.os.Handler;
 
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+
 import java.lang.annotation.Repeatable;
 
 public class MainActivity extends AppCompatActivity {
@@ -28,5 +33,19 @@ public class MainActivity extends AppCompatActivity {
                 fragmentTransaction.commit();
             }
         },2000);
+    }
+
+    @Override
+    public void onDestroy() {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference materialsRef = db.collection("materials");
+        Query query2 = materialsRef.whereEqualTo("isSelected", true);
+        query2.get().addOnCompleteListener(task -> {
+            for (QueryDocumentSnapshot document : task.getResult()) {
+                // Update the "isSelected" field to true
+                materialsRef.document(document.getId()).update("isSelected", false);
+            }
+        });
+        super.onDestroy();
     }
 }

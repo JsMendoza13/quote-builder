@@ -2,17 +2,25 @@ package com.example.app_cotizacion.model;
 
 
 public class Material {
-    String materialId, materialImg, materialName, materialPrice, materialStatus;
+    String materialId,  materialImg, materialName, materialPrice, materialStatus;
+    long materialAmount;
     public Material() {}
 
-    public Material(String materialId, String materialImg, String materialName, String materialPrice, String materialStatus) {
+    public Material(String materialId, long materialAmount, String materialImg, String materialName, String materialPrice, String materialStatus) {
         this.materialId = materialId;
+        this.materialAmount = materialAmount;
         this.materialImg = materialImg;
         this.materialName = materialName;
         this.materialPrice = materialPrice;
         this.materialStatus = materialStatus;
     }
+    public long getMaterialAmount() {
+        return materialAmount;
+    }
 
+    public void setMaterialAmount(long materialAmount) {
+        this.materialAmount = materialAmount;
+    }
     public String getMaterialId() {
         return materialId;
     }
