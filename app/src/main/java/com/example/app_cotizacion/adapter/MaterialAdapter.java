@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -69,32 +70,25 @@ public class MaterialAdapter extends FirestoreRecyclerAdapter<Material, Material
             }
         });
 
-        holder.materialAmount.addTextChangedListener(new TextWatcher() {
+        holder.materialAmount.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                String matAmount = holder.materialAmount.getText().toString();
-                if (matAmount.isEmpty()) {
-                    FirebaseFirestore db = FirebaseFirestore.getInstance();
-                    CollectionReference materialsRef = db.collection("materials");
-                    Query queryAmount = materialsRef.whereNotEqualTo("materialAmount", 0);
-                    queryAmount.get().addOnCompleteListener(task -> {
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            materialRef.update("materialAmount", 0);
-                        }
-                    });
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus) {
+                    String matAmount = holder.materialAmount.getText().toString();
+                    if (matAmount.isEmpty()) {
+                        CollectionReference materialsRef = db.collection("materials");
+                        Query queryAmount = materialsRef.whereNotEqualTo("materialAmount", 0);
+                        queryAmount.get().addOnCompleteListener(task -> {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                materialRef.update("materialAmount", 0);
+                            }
+                        });
+                    } else {
+                        samount = holder.materialAmount.getText().toString();
+                        amount = Double.parseDouble(samount);
+                        materialRef.update("materialAmount", amount);
+                    };
                 }
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                samount = holder.materialAmount.getText().toString();
-                amount = Double.parseDouble(samount);
-                materialRef.update("materialAmount", amount);
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                // Este método se llama después de que el texto cambie.
             }
         });
 

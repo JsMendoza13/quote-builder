@@ -1,6 +1,8 @@
 package com.example.app_cotizacion;
 
 import android.os.Bundle;
+
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -17,7 +19,11 @@ import com.example.app_cotizacion.adapter.MaterialAdapter;
 import com.example.app_cotizacion.model.Material;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -30,7 +36,7 @@ public class cards extends Fragment {
 
     private String sprice;
 
-    private double price, total;
+    private double price, total, multiplicate;
 
     private int amount;
 
@@ -59,7 +65,6 @@ public class cards extends Fragment {
         FirestoreRecyclerOptions<Material> options = new FirestoreRecyclerOptions
                 .Builder<Material>()
                 .setQuery(query, Material.class).build();
-
         mAdapter = new MaterialAdapter(options);
         mRecycler.setAdapter(mAdapter);
 
@@ -106,28 +111,30 @@ public class cards extends Fragment {
 
         reload.setOnClickListener(v -> popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0));
 
-        calculate.setOnClickListener(v -> {
+        //Calculate---------------------------------------------
 
-            FirebaseFirestore db = FirebaseFirestore.getInstance();
-            CollectionReference materialsRef = db.collection("materials");
-            Query queryAmount = materialsRef.whereNotEqualTo("materialAmount", 0);
-            queryAmount.get().addOnCompleteListener(task -> {
-                double[] arr_price = new double[20];
-                double[] arr_amount = new double[20];
-                int index = 0;
-                for (QueryDocumentSnapshot document : task.getResult()) {
-                    sprice = document.getString("materialPrice");
-                    price = Double.parseDouble(sprice);
-                    amount = document.getLong("materialAmount").intValue();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference materialsRef = db.collection("materials");
+        Query queryAmount = materialsRef.whereNotEqualTo("materialAmount", 0);
+        queryAmount.get().addOnCompleteListener(task -> {
+            double[] arr_price = new double[19];
+            double[] arr_amount = new double[19];
+            int index = 0;
+            for (QueryDocumentSnapshot document : task.getResult()) {
+                amount = document.getLong("materialAmount").intValue();
+                sprice = document.getString("materialPrice");
+                price = Double.parseDouble(sprice);
                     arr_price[index] = price;
                     arr_amount[index] = amount;
                     index++;
-                }
+            }
                 total = 0;
                 for (int i = 0; i < arr_price.length; i++) {
                     total += arr_price[i] * arr_amount[i];
                 }
-            });
+        });
+
+        calculate.setOnClickListener(v -> {
 
             total fragmentTotal = new total();
 
