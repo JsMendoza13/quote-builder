@@ -8,11 +8,14 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.os.Handler;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.PopupWindow;
 import android.widget.Toast;
 import com.example.app_cotizacion.adapter.MaterialAdapter;
@@ -52,7 +55,6 @@ public class cards extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_cards, container, false);
         mRecycler = view.findViewById(R.id.containerRV);
         calculate = view.findViewById(R.id.calculate);
@@ -113,29 +115,7 @@ public class cards extends Fragment {
 
         //Calculate---------------------------------------------
 
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        CollectionReference materialsRef = db.collection("materials");
-        Query queryAmount = materialsRef.whereNotEqualTo("materialAmount", 0);
-        queryAmount.get().addOnCompleteListener(task -> {
-            double[] arr_price = new double[19];
-            double[] arr_amount = new double[19];
-            int index = 0;
-            for (QueryDocumentSnapshot document : task.getResult()) {
-                amount = document.getLong("materialAmount").intValue();
-                sprice = document.getString("materialPrice");
-                price = Double.parseDouble(sprice);
-                    arr_price[index] = price;
-                    arr_amount[index] = amount;
-                    index++;
-            }
-                total = 0;
-                for (int i = 0; i < arr_price.length; i++) {
-                    total += arr_price[i] * arr_amount[i];
-                }
-        });
-
         calculate.setOnClickListener(v -> {
-
             total fragmentTotal = new total();
 
             Bundle bundle = new Bundle();
@@ -150,6 +130,50 @@ public class cards extends Fragment {
 
         return view;
     }
+
+    //Calculate------------------------------------------
+    private final Handler handler = new Handler();
+
+    private Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            CollectionReference materialsRef = db.collection("materials");
+            Query queryAmount = materialsRef.whereNotEqualTo("materialAmount", 0);
+            queryAmount.get().addOnCompleteListener(task -> {
+                double[] arr_price = new double[19];
+                double[] arr_amount = new double[19];
+                int index = 0;
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    amount = document.getLong("materialAmount").intValue();
+                    sprice = document.getString("materialPrice");
+                    price = Double.parseDouble(sprice);
+                    arr_price[index] = price;
+                    arr_amount[index] = amount;
+                    index++;
+                }
+                total = 0;
+                for (int i = 0; i < arr_price.length; i++) {
+                    total += arr_price[i] * arr_amount[i];
+                }
+            });
+
+            handler.postDelayed(this, 1000);
+        }
+    };
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        handler.postDelayed(runnable, 1000);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        handler.removeCallbacks(runnable);
+    }
+    //Calculate------------------------------------------
 
     @Override
     public void onStart() {
