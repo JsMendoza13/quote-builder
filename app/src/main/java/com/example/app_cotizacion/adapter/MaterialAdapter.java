@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -34,10 +35,12 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
+import java.util.List;
+
 public class MaterialAdapter extends FirestoreRecyclerAdapter<Material, MaterialAdapter.ViewHolder> {
 
     public String samount;
-    public double amount, totalUnit, acmTotal;
+    public double amount;
 
     public MaterialAdapter(@NonNull FirestoreRecyclerOptions<Material> options) {
         super(options);
@@ -55,20 +58,23 @@ public class MaterialAdapter extends FirestoreRecyclerAdapter<Material, Material
         holder.materialPrice.setText(model.getMaterialPrice());
         holder.materialStatus.setText(model.getMaterialStatus());
 
-        DocumentSnapshot materialSnapshot = getSnapshots().getSnapshot(holder.getBindingAdapterPosition());
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentSnapshot materialSnapshot = getSnapshots().getSnapshot(holder.getBindingAdapterPosition());
         String materialId = materialSnapshot.getId();
         DocumentReference materialRef = db.collection("materials").document(materialId);
 
-        holder.check.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            materialRef.update("isSelected", isChecked);
-
-            if (isChecked) {
-                holder.materialCardView.setCardBackgroundColor(ContextCompat.getColor(buttonView.getContext(), R.color.light_gray));
-            } else {
-                holder.materialCardView.setCardBackgroundColor(ContextCompat.getColor(buttonView.getContext(), android.R.color.white));
+        holder.check.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                materialRef.update("isSelected", isChecked);
+                if (isChecked) {
+                    holder.materialCardView.setCardBackgroundColor(ContextCompat.getColor(buttonView.getContext(), R.color.light_gray));
+                } else {
+                    holder.materialCardView.setCardBackgroundColor(ContextCompat.getColor(buttonView.getContext(), android.R.color.white));
+                }
             }
         });
+
 
         holder.materialAmount.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override

@@ -87,7 +87,7 @@
         android:background="#eee0b7">
 
         <Button
-            android:id="@+id/nuevo"
+            android:id="@+id/newQuoteBuild"
             style="@style/button_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -3,10 +3,12 @@ package com.example.app_cotizacion.model;
 
 public class Material {
     String materialId,  materialImg, materialName, materialPrice, materialStatus;
+    boolean isSelected;
     long materialAmount;
     public Material() {}
 
-    public Material(String materialId, long materialAmount, String materialImg, String materialName, String materialPrice, String materialStatus) {
+    public Material(boolean isSelected, String materialId, long materialAmount, String materialImg, String materialName, String materialPrice, String materialStatus) {
+        this.isSelected = isSelected;
         this.materialId = materialId;
         this.materialAmount = materialAmount;
         this.materialImg = materialImg;
@@ -14,6 +16,15 @@ public class Material {
         this.materialPrice = materialPrice;
         this.materialStatus = materialStatus;
     }
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
+    }
+
     public long getMaterialAmount() {
         return materialAmount;
     }

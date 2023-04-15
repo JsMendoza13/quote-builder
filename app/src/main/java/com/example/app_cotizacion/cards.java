@@ -36,11 +36,8 @@ public class cards extends Fragment {
     private MaterialAdapter mAdapter;
     private Button calculate, reload;
     private View view;
-
     private String sprice;
-
-    private double price, total, multiplicate;
-
+    private double price, total;
     private int amount;
 
     public cards() {
@@ -179,12 +176,6 @@ public class cards extends Fragment {
     public void onStart() {
         super.onStart();
         mAdapter.startListening();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        mAdapter.stopListening();
     }
 
 }

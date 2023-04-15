@@ -1,8 +1,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="@dimen/_200sdp"
     android:layout_height="wrap_content"
     android:background="@drawable/background_confirm"
-    android:padding="@dimen/_15sdp"
+    android:padding="@dimen/_10sdp"
     android:orientation="vertical">
 
         <TextView
@@ -10,8 +11,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="¿Desea rehacer la cotización?"
-            android:textSize="@dimen/_20ssp"
+            android:text="¿Rehacer la cotización?"
+            android:textSize="@dimen/_17ssp"
             android:textStyle="bold"/>
 
         <LinearLayout
@@ -23,20 +24,22 @@
 
                 <Button
                     android:id="@+id/yes"
+                    style="@style/button_style2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="si"
                     android:layout_marginRight="@dimen/_10sdp"
                     android:background="@drawable/background_button"
-                    style="@style/button_style2"/>
+                    android:text="si"
+                    tools:ignore="TouchTargetSizeCheck" />
 
                 <Button
                     android:id="@+id/no"
+                    style="@style/button_style2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="no"
                     android:background="@drawable/background_button"
-                    style="@style/button_style2"/>
+                    android:text="no"
+                    tools:ignore="TouchTargetSizeCheck" />
 
         </LinearLayout>
 

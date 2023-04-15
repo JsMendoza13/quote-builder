@@ -42,7 +42,6 @@ public class MainActivity extends AppCompatActivity {
         Query query2 = materialsRef.whereEqualTo("isSelected", true);
         query2.get().addOnCompleteListener(task -> {
             for (QueryDocumentSnapshot document : task.getResult()) {
-                // Update the "isSelected" field to true
                 materialsRef.document(document.getId()).update("isSelected", false);
             }
         });
