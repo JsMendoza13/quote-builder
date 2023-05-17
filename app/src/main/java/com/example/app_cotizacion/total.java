@@ -15,18 +15,22 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.app_cotizacion.adapter.MaterialAdapter;
+import com.example.app_cotizacion.model.Material;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
+import java.util.List;
 import java.util.Locale;
 
 public class total extends Fragment {
     View view;
     TextView total, confirm_text;
     Button newQuoteBuild;
-    private double acmTotal;
+    private List<Material> materialList;
+    private MaterialAdapter adapter = new MaterialAdapter(materialList);
 
     public total() {
         // Required empty public constructor
@@ -42,11 +46,14 @@ public class total extends Fragment {
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_total, container, false);
 
-        acmTotal = getArguments().getDouble("total");
         total = view.findViewById(R.id.total);
         newQuoteBuild = view.findViewById(R.id.newQuoteBuild);
 
-        total.setText(String.valueOf(acmTotal));
+        Bundle arguments = getArguments();
+        if (arguments != null && arguments.containsKey("total")) {
+            double totalD = arguments.getDouble("total");
+            total.setText(String.valueOf(totalD));
+        }
 
         //Popup confirm-----------------------------------------------------------------------
 
@@ -64,22 +71,6 @@ public class total extends Fragment {
         confirm_text.setText("¿Realizar nueva cotización?");
 
         yes.setOnClickListener(v -> {
-            FirebaseFirestore db = FirebaseFirestore.getInstance();
-            CollectionReference materialsRef = db.collection("materials");
-            Query query_isSelected = materialsRef.whereEqualTo("isSelected", true);
-            query_isSelected.get().addOnCompleteListener(task -> {
-                for (QueryDocumentSnapshot document : task.getResult()) {
-                    materialsRef.document(document.getId()).update("isSelected", false);
-                }
-            });
-
-            Query query_materialAmount = materialsRef.whereNotEqualTo("materialAmount", 0);
-            query_materialAmount.get().addOnCompleteListener(task -> {
-                for (QueryDocumentSnapshot document : task.getResult()) {
-                    materialsRef.document(document.getId()).update("materialAmount", 0);
-                }
-            });
-
             FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             cards fragmentCards = new cards();
@@ -88,7 +79,6 @@ public class total extends Fragment {
 
             Toast.makeText(getContext(), "Cargando...", Toast.LENGTH_SHORT).show();
             popupWindow2.dismiss();
-
         });
 
         no.setOnClickListener(v -> popupWindow2.dismiss());

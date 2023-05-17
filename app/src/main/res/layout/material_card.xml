@@ -24,16 +24,6 @@
             android:orientation="horizontal"
             android:padding="@dimen/_6sdp">
 
-            <CheckBox
-                android:id="@+id/checkbox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="-12dp"
-                android:layout_marginRight="-12dp"
-                android:layout_alignParentRight="true"
-                android:background="@drawable/checkbox_selector"
-                style="@style/checkbox_style"/>
-
             <ImageView
                 android:id="@+id/materialImg"
                 android:layout_width="@dimen/_70sdp"
