@@ -48,7 +48,7 @@ public class MaterialAdapter extends RecyclerView.Adapter<MaterialAdapter.ViewHo
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Material item = materialList.get(position);
-        holder.bind(item);
+        holder.bind(item, position);
     }
 
     @Override
@@ -74,7 +74,7 @@ public class MaterialAdapter extends RecyclerView.Adapter<MaterialAdapter.ViewHo
             materialAmount = itemView.findViewById(R.id.materialAmount);
         }
 
-        public void bind(Material item) {
+        public void bind(Material item, int position) {
             Glide.with(itemView.getContext())
                     .load(item.getMaterialImg())
                     .placeholder(R.drawable.none_picture)
@@ -87,9 +87,9 @@ public class MaterialAdapter extends RecyclerView.Adapter<MaterialAdapter.ViewHo
             materialCardView.setCardBackgroundColor(backgroundColor);
             materialCardView.setOnClickListener(v -> {
                 item.setSelected(!item.isSelected());
-                bind(item);
+                bind(item, position);
             });
-
+            materialAmount.setText(String.valueOf(materialAmountList.get(position)));
             materialAmount.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
