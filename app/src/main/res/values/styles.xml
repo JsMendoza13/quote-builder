@@ -2,7 +2,7 @@
 <resources>
     <style name="button_style">
         <item name="android:background">@drawable/background_button</item>
-        <item name="backgroundTint">#e8caaf</item>
+        <item name="backgroundTint">#9cc4e4</item>
         <item name="android:textSize">@dimen/_16ssp</item>
         <item name="android:padding">@dimen/_7sdp</item>
         <item name="android:textColor">@color/white</item>

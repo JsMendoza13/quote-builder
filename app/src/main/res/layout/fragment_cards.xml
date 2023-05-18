@@ -14,7 +14,7 @@
         android:padding="@dimen/_10sdp"
         android:gravity="center"
         android:layout_alignParentTop="true"
-        android:background="#eee0b7">
+        android:background="#1b315e">
 
         <ImageView
             android:id="@+id/logo"
@@ -49,7 +49,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/buttons"
-        android:layout_below="@+id/header"/>
+        android:layout_below="@+id/header"
+        android:background="#9cc4e4"/>
 
     <LinearLayout
         android:id="@+id/buttons"
@@ -58,7 +59,7 @@
         android:padding="@dimen/_15sdp"
         android:gravity="center"
         android:layout_alignParentBottom="true"
-        android:background="#eee0b7">
+        android:background="#1b315e">
 
         <Button
             android:id="@+id/reload"
