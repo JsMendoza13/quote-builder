@@ -18,7 +18,8 @@
             android:gravity="center"
             android:text="¿Desea rehacer la cotización?"
             android:textSize="@dimen/_30ssp"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:textColor="@color/white"/>
 
         <Button
             android:id="@+id/yes"

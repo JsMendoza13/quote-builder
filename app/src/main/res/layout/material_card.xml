@@ -7,7 +7,7 @@
     android:layout_height="wrap_content"
     android:animateLayoutChanges="true"
     app:cardCornerRadius="@dimen/_15sdp"
-    app:strokeColor="#e8caaf"
+    app:strokeColor="#1b315e"
     app:strokeWidth="@dimen/_2sdp"
     app:cardElevation="@dimen/_4sdp"
     app:cardUseCompatPadding="true">
@@ -16,7 +16,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:animateLayoutChanges="true"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="#e9f2f8">
 
         <RelativeLayout
             android:layout_width="match_parent"
