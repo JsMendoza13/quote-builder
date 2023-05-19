@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -82,12 +83,15 @@ public class MaterialAdapter extends RecyclerView.Adapter<MaterialAdapter.ViewHo
             materialName.setText(item.getMaterialName());
             materialPrice.setText(String.valueOf(item.getMaterialPrice()));
             materialStatus.setText(item.getMaterialStatus());
-            int backgroundColor = item.isSelected() ? ContextCompat.getColor(itemView.getContext(), R.color.light_gray)
-                    : ContextCompat.getColor(itemView.getContext(), R.color.white);
+            int backgroundColor = item.isSelected() ? ContextCompat.getColor(itemView.getContext(), R.color.blue)
+                    : ContextCompat.getColor(itemView.getContext(), R.color.sky_blue);
             materialCardView.setCardBackgroundColor(backgroundColor);
             materialCardView.setOnClickListener(v -> {
+                Log.d("MaterialAdapter", "Card clicked at position: " + position);
                 item.setSelected(!item.isSelected());
+                Log.d("MaterialAdapter", "Item selected state after update: " + item.isSelected());
                 bind(item, position);
+                notifyItemChanged(position);
             });
             materialAmount.setText(String.valueOf(materialAmountList.get(position)));
             materialAmount.addTextChangedListener(new TextWatcher() {
