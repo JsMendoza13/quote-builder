@@ -16,8 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:animateLayoutChanges="true"
-        android:orientation="vertical"
-        android:background="#e9f2f8">
+        android:orientation="vertical">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -25,17 +24,23 @@
             android:orientation="horizontal"
             android:padding="@dimen/_6sdp">
 
-            <ImageView
-                android:id="@+id/materialImg"
-                android:layout_width="@dimen/_70sdp"
+            <LinearLayout
+                android:id="@+id/ln_mImg"
+                android:layout_width="@dimen/_90sdp"
                 android:layout_height="@dimen/_70sdp"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:paddingRight="@dimen/_5sdp"
-                android:paddingLeft="@dimen/_5sdp"
-                android:layout_gravity="center"
-                android:src="@drawable/logo"
-                android:background="@drawable/img_border" />
+                android:background="@drawable/img_border"
+                android:padding="@dimen/_2sdp">
+
+                <ImageView
+                    android:id="@+id/materialImg"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/logo"
+                    android:scaleType="centerCrop"/>
+
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/linearLayout"
@@ -45,8 +50,8 @@
                 android:layout_marginStart="@dimen/_4sdp"
                 android:layout_marginLeft="@dimen/_4sdp"
                 android:layout_marginTop="@dimen/_2sdp"
-                android:layout_toEndOf="@id/materialImg"
-                android:layout_toRightOf="@id/materialImg"
+                android:layout_toEndOf="@id/ln_mImg"
+                android:layout_toRightOf="@id/ln_mImg"
                 android:orientation="vertical">
 
                 <TextView

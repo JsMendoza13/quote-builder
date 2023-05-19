@@ -9,7 +9,7 @@
         <item name="android:textStyle">bold</item>
     </style>
     <style name="button_style2">
-        <item name="background">@drawable/background_button</item>
+        <item name="android:background">@drawable/background_button</item>
         <item name="backgroundTint">#9cc4e4</item>
         <item name="android:textSize">@dimen/_15ssp</item>
         <item name="android:textColor">@color/white</item>
@@ -19,6 +19,6 @@
         <item name="android:buttonTint">#e8caaf</item>
     </style>
     <style name="edittext_style" parent="@android:style/Widget.EditText">
-        <item name="android:backgroundTint">#e8caaf</item>
+        <item name="android:backgroundTint">#1b325f</item>
     </style>
 </resources>
