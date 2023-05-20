@@ -27,7 +27,7 @@ public class initial_loader extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        String hexColor = "#e8caaf";
+        String hexColor = "#e5a200";
         int color = Color.parseColor(hexColor);
         ColorFilter colorFilter = new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN);
 

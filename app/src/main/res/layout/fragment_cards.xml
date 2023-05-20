@@ -14,7 +14,7 @@
         android:padding="@dimen/_10sdp"
         android:gravity="center"
         android:layout_alignParentTop="true"
-        android:background="#1b315e">
+        android:background="#1F2633">
 
         <ImageView
             android:id="@+id/logo"
@@ -23,7 +23,7 @@
             android:layout_marginRight="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_5sdp"
             android:layout_marginBottom="@dimen/_5sdp"
-            android:src="@drawable/logo"
+            android:src="@drawable/logo_5_2"
             tools:ignore="ImageContrastCheck" />
 
         <TextView
@@ -50,7 +50,7 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/buttons"
         android:layout_below="@+id/header"
-        android:background="#9cc4e4"/>
+        android:background="#252C39"/>
 
     <LinearLayout
         android:id="@+id/buttons"
@@ -59,11 +59,11 @@
         android:padding="@dimen/_15sdp"
         android:gravity="center"
         android:layout_alignParentBottom="true"
-        android:background="#1b315e">
+        android:background="#1F2633">
 
         <Button
             android:id="@+id/reload"
-            style="@style/button_style"
+            style="@style/button_style3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/_15sdp"
@@ -73,7 +73,7 @@
 
         <Button
             android:id="@+id/calculate"
-            style="@style/button_style"
+            style="@style/button_style3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/_15sdp"

@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#1b315e"
+    android:background="#1F2633"
     android:padding="@dimen/_15sdp"
     tools:context=".app_introduction">
 
@@ -11,14 +11,14 @@
         android:id="@+id/logo"
         android:layout_width="@dimen/_100sdp"
         android:layout_height="@dimen/_65sdp"
-        android:src="@drawable/logo" />
+        android:src="@drawable/logo_5_2" />
 
     <Button
         android:id="@+id/continuar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Continuar"
-        style="@style/button_style2"
+        style="@style/button_style3"
         android:layout_alignParentRight="true" />
 
     <TextView
