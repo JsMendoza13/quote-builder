@@ -142,7 +142,7 @@
                         android:background="#252525"
                         android:onClick="RegistroGoogle"
                         android:scaleType="fitCenter"
-                        app:srcCompat="@drawable/google"
+                        app:srcCompat="@drawable/google_v2"
                         tools:ignore="SpeakableTextPresentCheck" />
 
                 </LinearLayout>
