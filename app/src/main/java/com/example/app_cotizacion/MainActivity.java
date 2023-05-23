@@ -28,8 +28,8 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                app_introduction fragmentApp_introduction = new app_introduction();
-                fragmentTransaction.replace(R.id.container, fragmentApp_introduction);
+                login fragment_login = new login();
+                fragmentTransaction.replace(R.id.container, fragment_login);
                 fragmentTransaction.commit();
             }
         },2000);
@@ -37,14 +37,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onDestroy() {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        CollectionReference materialsRef = db.collection("materials");
-        Query query2 = materialsRef.whereEqualTo("isSelected", true);
-        query2.get().addOnCompleteListener(task -> {
-            for (QueryDocumentSnapshot document : task.getResult()) {
-                materialsRef.document(document.getId()).update("isSelected", false);
-            }
-        });
         super.onDestroy();
     }
 }
