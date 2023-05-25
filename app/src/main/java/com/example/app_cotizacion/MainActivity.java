@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                login fragment_login = new login();
+                app_introduction fragment_login = new app_introduction();
                 fragmentTransaction.replace(R.id.container, fragment_login);
                 fragmentTransaction.commit();
             }

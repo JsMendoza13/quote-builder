@@ -30,6 +30,7 @@ public class cards extends Fragment {
     private MaterialAdapter mAdapter = new MaterialAdapter(materialList);
     private Button calculate, reload;
     private View view;
+    private ArrayList<Double> materialAmountList;
 
     public cards() {
         // Required empty public constructor
@@ -71,6 +72,14 @@ public class cards extends Fragment {
         //Calculate---------------------------------------------
 
         calculate.setOnClickListener(v -> {
+        materialAmountList = mAdapter.getMaterialAmountList();
+        double plus = 0;
+        for (int i = 0; i<materialAmountList.size(); i++){
+            plus += materialAmountList.get(i);
+        }
+        if (plus == 0.0 ){
+            Toast.makeText(getContext(), "Selecciona un material y agrega un valor diferente a 0", Toast.LENGTH_SHORT).show();
+        }else {
             double totalD = mAdapter.calculateTotal();
             System.out.println("ArrayAmount: " + mAdapter.getMaterialAmountList());
             System.out.println("Total: " + totalD);
@@ -83,6 +92,7 @@ public class cards extends Fragment {
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.container, fragmentTotal);
             fragmentTransaction.commit();
+        }
         });
 
         //Popup confirm-----------------------------------------------------------------------
