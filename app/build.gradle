@@ -32,14 +32,16 @@ android {
 dependencies {
     //Glide
     implementation 'com.github.bumptech.glide:glide:4.12.0'
+    implementation 'com.google.firebase:firebase-auth:22.0.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
 
     //Firebase
-    implementation platform('com.google.firebase:firebase-bom:31.3.0')
+    implementation platform('com.google.firebase:firebase-bom:32.0.0')
     implementation 'com.google.firebase:firebase-analytics'
     // FirebaseUI for Cloud Firestore
     implementation 'com.firebaseui:firebase-ui-firestore:8.0.2'
     implementation 'com.google.firebase:firebase-storage:20.1.0'
+    implementation 'com.google.firebase:firebase-appcheck-playintegrity'
     implementation 'com.google.firebase:firebase-firestore:24.4.5'
 
     implementation 'androidx.appcompat:appcompat:1.6.1'
