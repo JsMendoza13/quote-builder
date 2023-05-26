@@ -22,7 +22,7 @@
                 android:id="@+id/imageView"
                 android:layout_width="match_parent"
                 android:layout_height="122dp"
-                android:layout_marginTop="@dimen/_62sdp"
+                android:layout_marginTop="@dimen/_42sdp"
                 android:layout_marginBottom="@dimen/_12sdp"
                 app:srcCompat="@drawable/logo_5_2" />
 
@@ -101,8 +101,7 @@
                 style="@style/button_style3"
                 android:layout_marginTop="-25dp"
                 android:layout_gravity="center"
-                android:text="Iniciar"
-                android:onClick="Iniciar"/>
+                android:text="Iniciar"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -116,7 +115,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/_10sdp"
                     android:textSize="@dimen/_13ssp"
-                    style="@style/button_style3"
+                    style="@style/button_style"
                     android:text="Registrarme" />
 
                 <LinearLayout
@@ -140,7 +139,6 @@
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:background="#1F2633"
-                        android:onClick="RegistroGoogle"
                         android:scaleType="fitCenter"
                         app:srcCompat="@drawable/google_v2"
                         tools:ignore="SpeakableTextPresentCheck" />

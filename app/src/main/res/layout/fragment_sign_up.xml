@@ -21,14 +21,14 @@
             <ImageView
                 android:id="@+id/imageView"
                 android:layout_width="match_parent"
-                android:layout_height="164dp"
-                android:layout_marginBottom="@dimen/_12sdp"
+                android:layout_height="118dp"
+                android:layout_marginBottom="@dimen/_18sdp"
                 app:srcCompat="@drawable/logo_5_2" />
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardView"
                 android:layout_width="match_parent"
-                android:layout_height="380sp"
+                android:layout_height="450sp"
                 app:cardBackgroundColor="#085794"
                 app:cardCornerRadius="20sp"
                 tools:ignore="MissingConstraints">
@@ -52,7 +52,7 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="295dp"
+                    android:layout_height="355dp"
                     android:layout_marginTop="60sp"
                     android:orientation="vertical"
                     android:paddingLeft="10dp"
@@ -134,6 +134,21 @@
                         android:ems="10"
                         android:inputType="textPassword" />
 
+                    <EditText
+                        android:id="@+id/editPass2"
+                        android:layout_width="match_parent"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="@dimen/_6sdp"
+                        android:layout_height="48dp"
+                        android:background="@drawable/edit_text"
+                        android:hint="Confirmar contraseña"
+                        android:textColor="#e5a200"
+                        android:textSize="@dimen/_23sdp"
+                        android:textColorHint="#7C7C7C"
+                        android:paddingLeft="@dimen/_13sdp"
+                        android:ems="10"
+                        android:inputType="textPassword" />
+
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
@@ -145,8 +160,7 @@
                 style="@style/button_style3"
                 android:layout_marginTop="-20dp"
                 android:layout_gravity="center"
-                android:text="Registrar"
-                android:onClick="Registrarse"/>
+                android:text="Registrar"/>
 
         </LinearLayout>
 
