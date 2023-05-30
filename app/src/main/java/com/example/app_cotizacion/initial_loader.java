@@ -29,7 +29,6 @@ public class initial_loader extends Fragment {
                              Bundle savedInstanceState) {
         String hexColor = "#e5a200";
         int color = Color.parseColor(hexColor);
-        ColorFilter colorFilter = new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN);
 
         // Inflate the layout for this fragment
         View vieww = inflater.inflate(R.layout.fragment_initial_loader, container, false);

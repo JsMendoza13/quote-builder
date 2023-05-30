@@ -31,7 +31,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:background="@drawable/img_border"
-                android:padding="@dimen/_2sdp">
+                android:padding="@dimen/_1sdp">
 
                 <ImageView
                     android:id="@+id/materialImg"
