@@ -77,7 +77,6 @@ public class total extends Fragment {
             fragmentTransaction.replace(R.id.container, fragmentCards);
             fragmentTransaction.commit();
 
-            Toast.makeText(getContext(), "Cargando...", Toast.LENGTH_SHORT).show();
             popupWindow2.dismiss();
         });
 

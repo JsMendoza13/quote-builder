@@ -1,24 +1,38 @@
 package com.example.app_cotizacion;
 
+import static android.content.ContentValues.TAG;
+
+import android.graphics.Color;
+import android.graphics.ColorFilter;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
+import android.graphics.Typeface;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.PopupWindow;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.example.app_cotizacion.adapter.MaterialAdapter;
 import com.example.app_cotizacion.model.Material;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +45,7 @@ public class cards extends Fragment {
     private Button calculate, reload;
     private View view;
     private ArrayList<Double> materialAmountList;
+    private ProgressBar progressBar;
 
     public cards() {
         // Required empty public constructor
@@ -48,8 +63,33 @@ public class cards extends Fragment {
         mRecycler = view.findViewById(R.id.containerRV);
         calculate = view.findViewById(R.id.calculate);
         reload = view.findViewById(R.id.reload);
+        progressBar = view.findViewById(R.id.progressBar);
 
         db = FirebaseFirestore.getInstance();
+
+//        progressBar
+
+        String hexColor = "#e5a200";
+        int color = Color.parseColor(hexColor);
+        progressBar.getIndeterminateDrawable().setColorFilter( color, android.graphics.PorterDuff.Mode.MULTIPLY);
+
+        db.collection("materials").get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        progressBar.setVisibility(View.GONE);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        if (e != null) {
+                            Log.w(TAG, "Error al cargar los materiales.", e);
+                        }
+                    }
+                });
+
+//        List materials
+
         List<Material> materialList = new ArrayList<>();
         db.collection("materials").get().addOnSuccessListener(queryDocumentSnapshots -> {
             for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
@@ -114,7 +154,6 @@ public class cards extends Fragment {
             fragmentTransaction.replace(R.id.container, fragmentCards);
             fragmentTransaction.commit();
 
-            Toast.makeText(getContext(), "Cargando...", Toast.LENGTH_SHORT).show();
             popupWindow.dismiss();
         });
 
