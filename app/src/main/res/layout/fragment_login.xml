@@ -92,7 +92,7 @@
             </androidx.cardview.widget.CardView>
 
             <Button
-                android:id="@+id/btnRegistro"
+                android:id="@+id/btnLogin"
                 android:layout_width="@dimen/_180sdp"
                 android:layout_height="@dimen/_40sdp"
                 style="@style/button_style3"
