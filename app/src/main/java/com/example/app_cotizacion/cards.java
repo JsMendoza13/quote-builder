@@ -3,10 +3,6 @@ package com.example.app_cotizacion;
 import static android.content.ContentValues.TAG;
 
 import android.graphics.Color;
-import android.graphics.ColorFilter;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
-import android.graphics.Typeface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -24,7 +20,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.PopupWindow;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 import com.example.app_cotizacion.adapter.MaterialAdapter;
 import com.example.app_cotizacion.model.Material;
@@ -140,7 +135,7 @@ public class cards extends Fragment {
         View popupView = getLayoutInflater().inflate(R.layout.confirm_popup, null);
 
         PopupWindow popupWindow = new PopupWindow(popupView,
-                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
         popupWindow.setAnimationStyle(androidx.appcompat.R.style.Animation_AppCompat_Dialog);
 

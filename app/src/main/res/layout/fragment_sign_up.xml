@@ -19,14 +19,12 @@
             android:orientation="vertical">
 
             <ImageView
-                android:id="@+id/imageView"
                 android:layout_width="match_parent"
                 android:layout_height="118dp"
                 android:layout_marginBottom="@dimen/_18sdp"
                 app:srcCompat="@drawable/logo_5_2" />
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/cardView"
                 android:layout_width="match_parent"
                 android:layout_height="450sp"
                 app:cardBackgroundColor="#085794"
@@ -39,7 +37,6 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/textView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/_26ssp"

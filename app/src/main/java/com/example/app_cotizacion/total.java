@@ -60,7 +60,7 @@ public class total extends Fragment {
         View popupView2 = getLayoutInflater().inflate(R.layout.confirm_popup, null);
 
         PopupWindow popupWindow2 = new PopupWindow(popupView2,
-                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
         popupWindow2.setAnimationStyle(androidx.appcompat.R.style.Animation_AppCompat_Dialog);
 

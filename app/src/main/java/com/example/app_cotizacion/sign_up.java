@@ -1,11 +1,14 @@
 package com.example.app_cotizacion;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.PopupWindow;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -48,6 +51,26 @@ public class sign_up extends DialogFragment {
         inputpassTwo = view.findViewById(R.id.editPass2);
         btnRegistro = view.findViewById(R.id.btnRegistro);
 
+//        popUp
+
+        View popupView = getLayoutInflater().inflate(R.layout.confirm_register, null);
+
+        PopupWindow popupWindow = new PopupWindow(popupView,
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+
+        popupWindow.setAnimationStyle(androidx.appcompat.R.style.Animation_AppCompat_Dialog);
+
+        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) Button btnContinue = popupView.findViewById(R.id.btnContinue);
+
+        btnContinue.setOnClickListener(v -> {
+            FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            app_introduction fragment_login = new app_introduction();
+            fragmentTransaction.replace(R.id.container, fragment_login);
+            fragmentTransaction.commit();
+            popupWindow.dismiss();
+        });
+
         btnRegistro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -82,17 +105,7 @@ public class sign_up extends DialogFragment {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
-                                Toast.makeText(getContext(), "Registro Exitoso... :) ", Toast.LENGTH_SHORT).show();
-
-                                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-                                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                                app_introduction fragment_login = new app_introduction();
-                                fragmentTransaction.replace(R.id.container, fragment_login);
-                                fragmentTransaction.commit();
-
-
-
-
+                                popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
                             } else {
                                 Toast.makeText(getContext(), "No se pudo registrar :( ", Toast.LENGTH_SHORT).show();
                             }
