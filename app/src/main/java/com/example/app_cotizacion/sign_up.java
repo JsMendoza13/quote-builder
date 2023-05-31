@@ -2,6 +2,7 @@ package com.example.app_cotizacion;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,9 +18,17 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class sign_up extends DialogFragment {
 
@@ -27,6 +36,8 @@ public class sign_up extends DialogFragment {
     Button btnRegistro;
 
     private FirebaseAuth mAuth;
+    FirebaseFirestore fStore;
+
     View view;
 
     @Override
@@ -42,6 +53,7 @@ public class sign_up extends DialogFragment {
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_sign_up, container, false);
         mAuth = FirebaseAuth.getInstance();
+        fStore = FirebaseFirestore.getInstance();
 
         inputNombre = view.findViewById(R.id.editNombre);
         inputApellido = view.findViewById(R.id.editApellido);
@@ -105,9 +117,35 @@ public class sign_up extends DialogFragment {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
-                                popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+                                FirebaseUser user = mAuth.getCurrentUser();
+                                String userEmail = user.getUid();
+                                DocumentReference documentReference = fStore.collection("Users").document(userEmail);
+                                Map<String, Object> datauser = new HashMap<>();
+                                datauser.put("Name", nameUser);
+                                datauser.put("LastName", lastUser);
+                                datauser.put("Phone", phoneUser);
+                                datauser.put("Email", emailUser );
+                                datauser.put("Password", passUserTwo);
+
+                                documentReference.set(datauser).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void unused) {
+                                        Log.d("Registro", "Datos del usuario creados");
+
+                                        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
+
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.d("Registro", "Error al crear documento del usuario");
+                                    }
+                                });
+
+
+
                             } else {
-                                Toast.makeText(getContext(), "No se pudo registrar :( ", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getContext(), "Error al registrarse... ", Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
