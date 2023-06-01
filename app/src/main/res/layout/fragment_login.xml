@@ -131,6 +131,7 @@
                         android:text="Iniciar con google" />
 
                     <ImageButton
+                        android:id="@+id/BtnGoogleSign"
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:background="#1F2633"
