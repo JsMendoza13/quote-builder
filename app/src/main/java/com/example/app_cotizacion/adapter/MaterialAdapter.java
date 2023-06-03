@@ -27,10 +27,13 @@ import java.util.List;
 public class MaterialAdapter extends RecyclerView.Adapter<MaterialAdapter.ViewHolder> {
     private List<Material> materialList;
     private ArrayList<Double> materialAmountList = new ArrayList<>();
+    private ArrayList<Double> materialTotalPrice = new ArrayList<>();
+    private double multiplication;
 
     public ArrayList<Double> getMaterialAmountList() {
         return materialAmountList;
     }
+    public ArrayList<Double> getMaterialTotalPrice() { return materialTotalPrice; }
     public MaterialAdapter (List<Material> materialList) {
         this.materialList = materialList;
     }
@@ -40,8 +43,10 @@ public class MaterialAdapter extends RecyclerView.Adapter<MaterialAdapter.ViewHo
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.material_card, parent, false);
         materialAmountList.clear();
+        materialTotalPrice.clear();
         for (int i = 0; i < materialList.size(); i++) {
             materialAmountList.add(0.0);
+            materialTotalPrice.add(0.0);
         }
         return new ViewHolder(v);
     }
@@ -122,7 +127,8 @@ public class MaterialAdapter extends RecyclerView.Adapter<MaterialAdapter.ViewHo
         if (materialAmountList.size() == materialList.size()) {
             for (int i = 0; i < materialAmountList.size(); i++) {
                 double amount = materialAmountList.get(i);
-                double multiplication = amount * materialList.get(i).getMaterialPrice();
+                multiplication = amount * materialList.get(i).getMaterialPrice();
+                materialTotalPrice.set(i, multiplication);
                 total += multiplication;
             }
         }

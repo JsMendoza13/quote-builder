@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.PopupWindow;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.example.app_cotizacion.adapter.MaterialAdapter;
 import com.example.app_cotizacion.model.Material;
@@ -28,7 +29,9 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.protobuf.LazyStringArrayList;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,10 +40,16 @@ public class cards extends Fragment {
     private FirebaseFirestore db;
     private List<Material> materialList = new ArrayList<>();
     private MaterialAdapter mAdapter = new MaterialAdapter(materialList);
-    private Button calculate, reload;
+    private Button calculate, reload, view_more, close;
     private View view;
     private ArrayList<Double> materialAmountList;
     private ProgressBar progressBar;
+    private TextView val_total;
+    private ArrayList<String> materialNameArray = new ArrayList<>();
+    private ArrayList<Double> materialPriceArray = new ArrayList<>();
+    private double totalD;
+    public ArrayList<String> getMaterialNameArray() { return materialNameArray; }
+    public ArrayList<Double> getMaterialPriceArray() { return materialPriceArray; }
 
     public cards() {
         // Required empty public constructor
@@ -84,6 +93,12 @@ public class cards extends Fragment {
                 });
 
 //        List materials
+//        materialNameArray.clear();
+//        materialPriceArray.clear();
+//        for (int i = 0; i < materialList.size(); i++) {
+//            materialNameArray.add(null);
+//            materialPriceArray.add(0.0);
+//        }
 
         List<Material> materialList = new ArrayList<>();
         db.collection("materials").get().addOnSuccessListener(queryDocumentSnapshots -> {
@@ -94,6 +109,11 @@ public class cards extends Fragment {
                 String materialStatus = documentSnapshot.getString("materialStatus");
 
                 Material item = new Material(materialImg, materialName, materialPrice, materialStatus);
+                materialNameArray.add(materialName);
+                materialPriceArray.add(materialPrice);
+//                for (int i = 0; i < materialList.size(); i++) {
+//                    if (mAdapter.is)
+//                }
                 materialList.add(item);
             }
 
@@ -104,33 +124,7 @@ public class cards extends Fragment {
             mRecycler.setHasFixedSize(true);
         });
 
-        //Calculate---------------------------------------------
-
-        calculate.setOnClickListener(v -> {
-        materialAmountList = mAdapter.getMaterialAmountList();
-        double plus = 0;
-        for (int i = 0; i<materialAmountList.size(); i++){
-            plus += materialAmountList.get(i);
-        }
-        if (plus == 0.0 ){
-            Toast.makeText(getContext(), "Selecciona un material y agrega un valor diferente a 0", Toast.LENGTH_SHORT).show();
-        }else {
-            double totalD = mAdapter.calculateTotal();
-            System.out.println("ArrayAmount: " + mAdapter.getMaterialAmountList());
-            System.out.println("Total: " + totalD);
-            System.out.println("Elementos: " + mAdapter.getItemCount());
-            total fragmentTotal = new total();
-            Bundle bundle = new Bundle();
-            bundle.putDouble("total", totalD);
-            fragmentTotal.setArguments(bundle);
-            FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.container, fragmentTotal);
-            fragmentTransaction.commit();
-        }
-        });
-
-        //Popup confirm-----------------------------------------------------------------------
+        //Popup confirm reload-----------------------------------------------------------------------
 
         View popupView = getLayoutInflater().inflate(R.layout.confirm_popup, null);
 
@@ -155,6 +149,71 @@ public class cards extends Fragment {
         no.setOnClickListener(v -> popupWindow.dismiss());
 
         reload.setOnClickListener(v -> popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0));
+
+//        popup total
+
+        View popupViewT = getLayoutInflater().inflate(R.layout.total_popup, null);
+
+        PopupWindow popupWindowT = new PopupWindow(popupViewT,
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+
+        popupWindowT.setAnimationStyle(androidx.appcompat.R.style.Animation_AppCompat_Dialog);
+
+
+        val_total = popupViewT.findViewById(R.id.val_total);
+        view_more = popupViewT.findViewById(R.id.view_more);
+        close = popupViewT.findViewById(R.id.close);
+
+        view_more.setOnClickListener(v -> {
+            Bundle bundle = new Bundle();
+            bundle.putStringArrayList("names", getMaterialNameArray());
+            double[] amountArray = new double[mAdapter.getMaterialAmountList().size()];
+            double[] priceArray = new double[getMaterialPriceArray().size()];
+            double[] totalArray = new double[mAdapter.getMaterialTotalPrice().size()];
+            for (int i = 0; i < amountArray.length; i++) {
+                amountArray[i] = mAdapter.getMaterialAmountList().get(i);
+                priceArray[i] = getMaterialPriceArray().get(i);
+                totalArray[i] = mAdapter.getMaterialTotalPrice().get(i);
+            }
+            bundle.putDouble("total", totalD);
+            bundle.putDoubleArray("amounts", amountArray);
+            bundle.putDoubleArray("prices", priceArray);
+            bundle.putDoubleArray("totals", totalArray);
+            total fragmentTotal = new total();
+            fragmentTotal.setArguments(bundle);
+            FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.container, fragmentTotal);
+            fragmentTransaction.commit();
+            popupWindowT.dismiss();
+        });
+
+        close.setOnClickListener(v -> popupWindowT.dismiss());
+
+        //Calculate---------------------------------------------
+
+        calculate.setOnClickListener(v -> {
+            materialAmountList = mAdapter.getMaterialAmountList();
+            double plus = 0;
+            for (int i = 0; i<materialAmountList.size(); i++){
+                plus += materialAmountList.get(i);
+            }
+            if (plus == 0.0 ){
+                Toast.makeText(getContext(), "Selecciona un material y agrega un valor diferente a 0", Toast.LENGTH_SHORT).show();
+            }else {
+                totalD = mAdapter.calculateTotal();
+                System.out.println("ArrayAmount: " + mAdapter.getMaterialAmountList());
+                System.out.println("Total: " + totalD);
+                System.out.println("Elementos: " + mAdapter.getItemCount());
+                System.out.println("Table");
+                System.out.println("Nombres: " + getMaterialNameArray());
+                System.out.println("Cantidades "+mAdapter.getMaterialAmountList());
+                System.out.println("Precio "+getMaterialPriceArray());
+                System.out.println("total "+mAdapter.getMaterialTotalPrice());
+                val_total.setText("$"+String.valueOf(totalD));
+                popupWindowT.showAtLocation(view, Gravity.CENTER, 0, 0);
+            }
+        });
 
         return view;
     }

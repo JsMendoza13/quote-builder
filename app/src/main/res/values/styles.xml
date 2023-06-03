@@ -21,4 +21,5 @@
     <style name="edittext_style" parent="@android:style/Widget.EditText">
         <item name="android:backgroundTint">#1b325f</item>
     </style>
+
 </resources>
