@@ -15,7 +15,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import java.lang.annotation.Repeatable;
 
 public class MainActivity extends AppCompatActivity {
-    Handler handler = new Handler();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,16 +23,12 @@ public class MainActivity extends AppCompatActivity {
 
         getSupportActionBar().hide();
 
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                login fragment_login = new login();
-                fragmentTransaction.replace(R.id.container, fragment_login);
-                fragmentTransaction.commit();
-            }
-        },2000);
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        login fragment_login = new login();
+        fragmentTransaction.replace(R.id.container, fragment_login);
+        fragmentTransaction.commit();
     }
 
     @Override
