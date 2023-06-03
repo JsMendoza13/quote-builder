@@ -206,7 +206,7 @@ public class login extends Fragment {
         fragmentTransaction.commit();
     }
 
-
+/*
     @Override
     public void onStart() {
         super.onStart();
@@ -220,7 +220,7 @@ public class login extends Fragment {
         }
     }
 
-
+*/
 
     // Este método muestra un error en un EditText
     private void showError(EditText input, String errorMessage) {

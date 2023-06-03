@@ -11,6 +11,6 @@
         android:name="com.example.app_cotizacion.initial_loader"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:layout="@layout/fragment_initial_loader" />
+        tools:layout="@layout/fragment_login" />
 
 </RelativeLayout>
