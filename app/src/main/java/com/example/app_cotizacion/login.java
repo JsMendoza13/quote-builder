@@ -32,6 +32,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
+import java.util.concurrent.Executor;
+
 public class login extends Fragment {
     private static final int RC_SIGN_IN = 1;
     String TAG = "GoogleSignInLogin";
@@ -62,6 +64,7 @@ public class login extends Fragment {
         inputPass = view.findViewById(R.id.editPass);
         login = view.findViewById(R.id.btnLogin);
         BtnGoogle = view.findViewById(R.id.BtnGoogleSign);
+        register = view.findViewById(R.id.register);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -73,6 +76,10 @@ public class login extends Fragment {
 
         // Crear un GoogleSignInClient con las opciones especificadas por gso.
         mGoogleSignInClient = GoogleSignIn.getClient(requireContext(), gso);
+
+        // Este método verifica si el usuario ya ha iniciado sesión y lo redirige a la pantalla de introducción
+
+
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,28 +116,41 @@ public class login extends Fragment {
 
         // Función del botón de inicio de sesión con Google
         BtnGoogle.setOnClickListener(new View.OnClickListener() {
+
             @Override
-            public void onClick(View view) {
+            public void onClick (View view){
                 signInWithGoogle();
+
             }
         });
 
-        register = view.findViewById(R.id.register);
-        register.setOnClickListener(v -> {
-            FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            sign_up fragment_sign_up = new sign_up();
-            fragmentTransaction.replace(R.id.container, fragment_sign_up);
-            fragmentTransaction.commit();
+        register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                sign_up fragment_sign_up = new sign_up();
+                fragmentTransaction.replace(R.id.container, fragment_sign_up);
+                fragmentTransaction.commit();
+            }
         });
+
+
 
         return view;
     }
+
+
+
+
+
+
 
     private void signInWithGoogle() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -141,42 +161,52 @@ public class login extends Fragment {
             try {
                 // Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = task.getResult(ApiException.class);
-                if (account != null) {
-                    AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
-                    mAuth.signInWithCredential(credential)
-                            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                                @Override
-                                public void onComplete(@NonNull Task<AuthResult> task) {
-                                    if (task.isSuccessful()) {
-                                        // Sign in success, update UI with the signed-in user's information
-                                        Log.d(TAG, "signInWithCredential:success");
-                                        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
-                                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                                        app_introduction fragment_app_introduction = new app_introduction();
-                                        fragmentTransaction.replace(R.id.container, fragment_app_introduction);
-                                        fragmentTransaction.commit();
-                                    } else {
-                                        Log.w(TAG, "signInWithCredential:failure", task.getException());
-                                        Toast.makeText(getContext(), "No se pudo iniciar sesión con Google. ", Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            });
-                }
+
+                firebaseAuthWithGoogle(account.getIdToken());
+
             } catch (ApiException e) {
-                e.printStackTrace();
-                Log.w(TAG, "signInWithCredential:failure", e);
-                Toast.makeText(getContext(), "No se pudo iniciar sesión con Google. ", Toast.LENGTH_SHORT).show();
+                // Google Sign In failed, update UI appropriately
+                Toast.makeText(getContext(), "No se pudo iniciar sesión con google... ", Toast.LENGTH_SHORT).show();
             }
         }
     }
 
-    // Este método muestra un error en un EditText
-    private void showError(EditText input, String errorMessage) {
-        input.setError(errorMessage);
-        input.requestFocus();
+    private void firebaseAuthWithGoogle(String idToken) {
+        AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener((Executor) this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            irHome();
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            updateUI(user);
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Toast.makeText(getContext(), "No se pudo iniciar... ", Toast.LENGTH_SHORT).show();
+                            updateUI(null);
+                        }
+                    }
+                });
     }
 
-    // Este método verifica si el usuario ya ha iniciado sesión y lo redirige a la pantalla de introducción
+    private void updateUI(FirebaseUser user) {
+        user = mAuth.getCurrentUser();
+        if (user != null){
+            irHome();
+        }
+    }
+
+    private void irHome() {
+        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        app_introduction fragment_app_introduction = new app_introduction();
+        fragmentTransaction.replace(R.id.container, fragment_app_introduction);
+        fragmentTransaction.commit();
+    }
+
+
     @Override
     public void onStart() {
         super.onStart();
@@ -189,4 +219,15 @@ public class login extends Fragment {
             fragmentTransaction.commit();
         }
     }
+
+
+
+    // Este método muestra un error en un EditText
+    private void showError(EditText input, String errorMessage) {
+        input.setError(errorMessage);
+        input.requestFocus();
+    }
+
+
+
 }

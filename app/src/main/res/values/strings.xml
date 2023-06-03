@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">QuoteBuilder</string>
-
+    <string name="default_web_client_id" translatable="false">1025238168455-1hpu8glhgh2cd4giit1pujo6jjj8i25j.apps.googleusercontent.com</string>
 
     <!-- TODO: Remove or change this placeholder text -->
 </resources>
