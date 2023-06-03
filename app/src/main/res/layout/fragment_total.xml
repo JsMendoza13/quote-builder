@@ -44,13 +44,18 @@
 
     </LinearLayout>
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/header"
+        android:layout_above="@+id/buttons">
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_height="match_parent"
         android:background="#1F2633"
-        android:paddingBottom="@dimen/_50sdp"
-        android:paddingTop="@dimen/_50sdp"
+        android:paddingBottom="@dimen/_5sdp"
+        android:paddingTop="@dimen/_5sdp"
         android:gravity="center"
         android:orientation="vertical">
 
@@ -59,9 +64,76 @@
             android:layout_height="wrap_content"
             android:shadowColor="@color/black"
             android:shadowRadius="10"
+            android:text="Información detallada"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_30ssp"
+            android:textStyle="bold" />
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        
+            <TableLayout
+                android:id="@+id/table"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:stretchColumns="*">
+
+                <TableRow
+                    android:background="#e5a200"
+                    android:padding="@dimen/_5sdp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Material"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_15ssp"
+                        android:layout_marginLeft="@dimen/_5sdp"
+                        android:layout_marginRight="@dimen/_5sdp"
+                        android:textStyle="bold"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Cantidad"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_15ssp"
+                        android:layout_marginLeft="@dimen/_5sdp"
+                        android:layout_marginRight="@dimen/_5sdp"
+                        android:textStyle="bold"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Precio /u"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_15ssp"
+                        android:layout_marginLeft="@dimen/_5sdp"
+                        android:layout_marginRight="@dimen/_5sdp"
+                        android:textStyle="bold"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Precio Total"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_15ssp"
+                        android:layout_marginLeft="@dimen/_5sdp"
+                        android:layout_marginRight="@dimen/_5sdp"
+                        android:textStyle="bold"/>
+                </TableRow>
+
+            </TableLayout>
+
+        </HorizontalScrollView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:shadowColor="@color/black"
+            android:shadowRadius="10"
             android:text="Costo Total"
             android:textColor="@color/white"
-            android:textSize="@dimen/_40ssp"
+            android:textSize="@dimen/_30ssp"
             android:textStyle="bold" />
 
         <TextView
@@ -71,10 +143,12 @@
             android:text="0"
             android:gravity="center"
             android:textColor="#e5a200"
-            android:textSize="@dimen/_30ssp"
+            android:textSize="@dimen/_25ssp"
             android:textStyle="bold" />
 
     </LinearLayout>
+
+    </ScrollView>
 
     <LinearLayout
         android:id="@+id/buttons"
