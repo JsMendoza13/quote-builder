@@ -22,18 +22,21 @@ import com.example.app_cotizacion.model.Material;
 import com.google.android.material.card.MaterialCardView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class MaterialAdapter extends RecyclerView.Adapter<MaterialAdapter.ViewHolder> {
     private List<Material> materialList;
     private ArrayList<Double> materialAmountList = new ArrayList<>();
     private ArrayList<Double> materialTotalPrice = new ArrayList<>();
+    private ArrayList<Boolean> materialSelectedList = new ArrayList<>();
     private double multiplication;
 
     public ArrayList<Double> getMaterialAmountList() {
         return materialAmountList;
     }
     public ArrayList<Double> getMaterialTotalPrice() { return materialTotalPrice; }
+    public ArrayList<Boolean> getMaterialSelectedList() { return materialSelectedList; }
     public MaterialAdapter (List<Material> materialList) {
         this.materialList = materialList;
     }
@@ -44,9 +47,11 @@ public class MaterialAdapter extends RecyclerView.Adapter<MaterialAdapter.ViewHo
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.material_card, parent, false);
         materialAmountList.clear();
         materialTotalPrice.clear();
+        materialSelectedList.clear();
         for (int i = 0; i < materialList.size(); i++) {
             materialAmountList.add(0.0);
             materialTotalPrice.add(0.0);
+            materialSelectedList.add(false);
         }
         return new ViewHolder(v);
     }
@@ -97,6 +102,13 @@ public class MaterialAdapter extends RecyclerView.Adapter<MaterialAdapter.ViewHo
                 Log.d("MaterialAdapter", "Item selected state after update: " + item.isSelected());
                 bind(item, position);
                 notifyItemChanged(position);
+
+                    for (int i = 0; i < materialSelectedList.size(); i++) {
+                        if (item.isSelected()){
+                            materialSelectedList.set(position, item.isSelected());
+                        }
+                    }
+                System.out.println("ADAPTERSELECTEDITEMS: "+ materialSelectedList);
             });
             materialAmount.setText(String.valueOf(materialAmountList.get(position)));
             materialAmount.addTextChangedListener(new TextWatcher() {

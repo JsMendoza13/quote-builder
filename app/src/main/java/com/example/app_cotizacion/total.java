@@ -80,7 +80,7 @@ public class total extends Fragment {
         System.out.println("price "+Arrays.toString(materialPriceArray));
         System.out.println("total "+Arrays.toString(materialTotalPriceA));
 
-        total.setText(String.valueOf(totalAll));
+        total.setText("$"+String.valueOf(totalAll));
         System.out.println("totalAll "+totalAll);
 
         for (int i = 0; i < materialNameList.size(); i++) {
@@ -99,15 +99,18 @@ public class total extends Fragment {
             amount.setPadding(15, 4, 10,0);
             price.setPadding(15, 4, 10,0);
             total_price.setPadding(15, 4, 10,0);
-            name.setText(String.valueOf(materialNameList.get(i)));
-            tableRow.addView(name);
-            amount.setText(String.valueOf(materialAmountArray[i]));
-            tableRow.addView(amount);
-            price.setText(String.valueOf(materialPriceArray[i]));
-            tableRow.addView(price);
-            total_price.setText(String.valueOf(materialTotalPriceA[i]));
-            tableRow.addView(total_price);
-            table.addView(tableRow);
+
+            if (!(materialNameList.get(i) == "" && materialAmountArray[i] == 0.0 && materialPriceArray[i] == 0.0 && materialTotalPriceA[i] == 0.0)) {
+                name.setText(String.valueOf(materialNameList.get(i)));
+                tableRow.addView(name);
+                amount.setText(String.valueOf(materialAmountArray[i]));
+                tableRow.addView(amount);
+                price.setText("$"+String.valueOf(materialPriceArray[i]));
+                tableRow.addView(price);
+                total_price.setText("$"+String.valueOf(materialTotalPriceA[i]));
+                tableRow.addView(total_price);
+                table.addView(tableRow);
+            }
         }
 
         //Popup confirm new quote build-----------------------------------------------------------------------

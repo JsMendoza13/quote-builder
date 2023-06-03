@@ -33,6 +33,7 @@ import com.google.protobuf.LazyStringArrayList;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class cards extends Fragment {
@@ -47,7 +48,11 @@ public class cards extends Fragment {
     private TextView val_total;
     private ArrayList<String> materialNameArray = new ArrayList<>();
     private ArrayList<Double> materialPriceArray = new ArrayList<>();
-    private double totalD;
+    private double totalD, materialPrice;
+    private String materialName;
+    private  boolean[] selectedItems;
+    private ArrayList<String> nameArray = new ArrayList<>();
+    private ArrayList<Double> priceArray = new ArrayList<>();
     public ArrayList<String> getMaterialNameArray() { return materialNameArray; }
     public ArrayList<Double> getMaterialPriceArray() { return materialPriceArray; }
 
@@ -93,27 +98,17 @@ public class cards extends Fragment {
                 });
 
 //        List materials
-//        materialNameArray.clear();
-//        materialPriceArray.clear();
-//        for (int i = 0; i < materialList.size(); i++) {
-//            materialNameArray.add(null);
-//            materialPriceArray.add(0.0);
-//        }
 
-        List<Material> materialList = new ArrayList<>();
         db.collection("materials").get().addOnSuccessListener(queryDocumentSnapshots -> {
             for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
                 String materialImg = documentSnapshot.getString("materialImg");
-                String materialName = documentSnapshot.getString("materialName");
-                double materialPrice = documentSnapshot.getDouble("materialPrice");
+                materialName = documentSnapshot.getString("materialName");
+                materialPrice = documentSnapshot.getDouble("materialPrice");
                 String materialStatus = documentSnapshot.getString("materialStatus");
 
                 Material item = new Material(materialImg, materialName, materialPrice, materialStatus);
-                materialNameArray.add(materialName);
-                materialPriceArray.add(materialPrice);
-//                for (int i = 0; i < materialList.size(); i++) {
-//                    if (mAdapter.is)
-//                }
+                nameArray.add(materialName);
+                priceArray.add(materialPrice);
                 materialList.add(item);
             }
 
@@ -165,6 +160,25 @@ public class cards extends Fragment {
         close = popupViewT.findViewById(R.id.close);
 
         view_more.setOnClickListener(v -> {
+            materialNameArray.clear();
+            materialPriceArray.clear();
+            for (int i = 0; i < selectedItems.length; i++) {
+                materialNameArray.add("");
+                materialPriceArray.add(0.0);
+            }
+            System.out.println("SelectedItems "+ Arrays.toString(mAdapter.getMaterialSelectedList().toArray()));
+            for (int i = 0; i < selectedItems.length; i++) {
+                if (mAdapter.getMaterialSelectedList().get(i)) {
+                    materialNameArray.set(i, nameArray.get(i));
+                    materialPriceArray.set(i, priceArray.get(i));
+                }
+            }
+            System.out.println("Table");
+            System.out.println("Nombres: " + getMaterialNameArray());
+            System.out.println("Cantidades "+mAdapter.getMaterialAmountList());
+            System.out.println("Precio "+getMaterialPriceArray());
+            System.out.println("total "+mAdapter.getMaterialTotalPrice());
+
             Bundle bundle = new Bundle();
             bundle.putStringArrayList("names", getMaterialNameArray());
             double[] amountArray = new double[mAdapter.getMaterialAmountList().size()];
@@ -185,6 +199,7 @@ public class cards extends Fragment {
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.container, fragmentTotal);
             fragmentTransaction.commit();
+
             popupWindowT.dismiss();
         });
 
@@ -205,12 +220,14 @@ public class cards extends Fragment {
                 System.out.println("ArrayAmount: " + mAdapter.getMaterialAmountList());
                 System.out.println("Total: " + totalD);
                 System.out.println("Elementos: " + mAdapter.getItemCount());
-                System.out.println("Table");
-                System.out.println("Nombres: " + getMaterialNameArray());
-                System.out.println("Cantidades "+mAdapter.getMaterialAmountList());
-                System.out.println("Precio "+getMaterialPriceArray());
-                System.out.println("total "+mAdapter.getMaterialTotalPrice());
+
                 val_total.setText("$"+String.valueOf(totalD));
+//                ------------------------------------------------------
+                selectedItems = new boolean [mAdapter.getMaterialSelectedList().size()];
+                for (int i = 0; i < selectedItems.length; i++) {
+                    selectedItems[i] = mAdapter.getMaterialSelectedList().get(i);
+                }
+
                 popupWindowT.showAtLocation(view, Gravity.CENTER, 0, 0);
             }
         });
