@@ -100,7 +100,7 @@ public class total extends Fragment {
             price.setPadding(15, 4, 10,0);
             total_price.setPadding(15, 4, 10,0);
 
-            if (!(materialNameList.get(i) == "" && materialAmountArray[i] == 0.0 && materialPriceArray[i] == 0.0 && materialTotalPriceA[i] == 0.0)) {
+            if (!(materialNameList.get(i) == "" || materialAmountArray[i] == 0.0 || materialPriceArray[i] == 0.0 || materialTotalPriceA[i] == 0.0)) {
                 name.setText(String.valueOf(materialNameList.get(i)));
                 tableRow.addView(name);
                 amount.setText(String.valueOf(materialAmountArray[i]));

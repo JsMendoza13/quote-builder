@@ -168,7 +168,7 @@ public class cards extends Fragment {
             }
             System.out.println("SelectedItems "+ Arrays.toString(mAdapter.getMaterialSelectedList().toArray()));
             for (int i = 0; i < selectedItems.length; i++) {
-                if (mAdapter.getMaterialSelectedList().get(i)) {
+                if (materialAmountList.get(i) != 0.0) {
                     materialNameArray.set(i, nameArray.get(i));
                     materialPriceArray.set(i, priceArray.get(i));
                 }
