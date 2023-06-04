@@ -2,11 +2,13 @@ package com.example.app_cotizacion;
 
 import static android.content.ContentValues.TAG;
 
+import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentContainer;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -18,6 +20,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -29,9 +32,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.protobuf.LazyStringArrayList;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -55,6 +56,8 @@ public class cards extends Fragment {
     private ArrayList<Double> priceArray = new ArrayList<>();
     public ArrayList<String> getMaterialNameArray() { return materialNameArray; }
     public ArrayList<Double> getMaterialPriceArray() { return materialPriceArray; }
+    private ImageView back, profile;
+
 
     public cards() {
         // Required empty public constructor
@@ -73,6 +76,25 @@ public class cards extends Fragment {
         calculate = view.findViewById(R.id.calculate);
         reload = view.findViewById(R.id.reload);
         progressBar = view.findViewById(R.id.progressBar);
+        back = view.findViewById(R.id.back);
+        profile = view.findViewById(R.id.profile);
+
+
+        View popupViewProfile = getLayoutInflater().inflate(R.layout.profile_popup,  null);
+
+        PopupWindow popupWindowProfile = new PopupWindow(popupViewProfile,
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+
+        popupWindowProfile.setAnimationStyle(androidx.appcompat.R.style.Animation_AppCompat_Dialog);
+        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) Button close_profile = popupViewProfile.findViewById(R.id.close_profile);
+        close_profile.setOnClickListener(view1 -> {
+            popupWindowProfile.dismiss();
+        });
+        profile.setOnClickListener(view1 -> {
+            popupWindowProfile.showAtLocation(view, Gravity.CENTER, 0, 0);
+        });
+
+        back.setOnClickListener(view1 -> {goBack();});
 
         db = FirebaseFirestore.getInstance();
 
@@ -197,8 +219,10 @@ public class cards extends Fragment {
             fragmentTotal.setArguments(bundle);
             FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.container, fragmentTotal);
+            fragmentTransaction.replace(R.id.container2, fragmentTotal);
+            fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
+
 
             popupWindowT.dismiss();
         });
@@ -233,5 +257,11 @@ public class cards extends Fragment {
         });
 
         return view;
+    }
+    private void goBack() {
+        FragmentManager fragmentManager = getParentFragmentManager();
+        if (fragmentManager.getBackStackEntryCount() > 0) {
+            fragmentManager.popBackStack();
+        }
     }
 }

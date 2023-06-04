@@ -35,6 +35,7 @@ public class app_introduction extends Fragment {
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 cards fragmentCards = new cards();
                 fragmentTransaction.replace(R.id.container, fragmentCards);
+                fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
             }
         });
