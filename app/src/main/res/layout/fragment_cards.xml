@@ -15,32 +15,39 @@
         android:gravity="center"
         android:layout_alignParentTop="true"
         android:background="#1F2633">
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="@dimen/_30sdp"
+            android:layout_height="@dimen/_65sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginBottom="@dimen/_5sdp"
+            android:src="@drawable/back_arrow"
+            tools:ignore="ImageContrastCheck" />
 
         <ImageView
             android:id="@+id/logo"
             android:layout_width="@dimen/_100sdp"
             android:layout_height="@dimen/_65sdp"
-            android:layout_marginRight="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_30sdp"
             android:layout_marginTop="@dimen/_5sdp"
             android:layout_marginBottom="@dimen/_5sdp"
             android:src="@drawable/logo_5_2"
-            tools:ignore="ImageContrastCheck" />
+            tools:ignore="ImageContrastCheck"
+            android:layout_marginLeft="@dimen/_30sdp"/>
 
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-light"
-            android:gravity="center"
-            android:text="Cotización"
-            android:shadowRadius="10"
-            android:shadowColor="@color/black"
-            android:textColor="@color/white"
-            android:textSize="@dimen/_35ssp"
+        <ImageView
+            android:id="@+id/profile"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_65sdp"
             android:layout_marginRight="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_5sdp"
             android:layout_marginBottom="@dimen/_5sdp"
-            android:textStyle="bold" />
+            android:src="@drawable/prifile"
+            tools:ignore="ImageContrastCheck" />
+
+
+
 
     </LinearLayout>
 
@@ -86,8 +93,14 @@
             android:layout_marginLeft="@dimen/_15sdp"
             android:text="Calcular"
             android:layout_marginBottom="@dimen/_2sdp"
-            android:drawableRight="@drawable/row" />
+            android:drawableRight="@drawable/arrow" />
 
     </LinearLayout>
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/container2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/header"/>
 
 </RelativeLayout>

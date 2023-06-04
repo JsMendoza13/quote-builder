@@ -7,47 +7,10 @@
     android:background="#1F2633"
     tools:context=".total">
 
-    <LinearLayout
-        android:id="@+id/header"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/_10sdp"
-        android:gravity="center"
-        android:layout_alignParentTop="true"
-        android:background="#1F2633">
-
-        <ImageView
-            android:id="@+id/logo"
-            android:layout_width="@dimen/_100sdp"
-            android:layout_height="@dimen/_65sdp"
-            android:layout_marginRight="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:layout_marginBottom="@dimen/_5sdp"
-            android:src="@drawable/logo_5_2"
-            tools:ignore="ImageContrastCheck" />
-
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-light"
-            android:gravity="center"
-            android:text="Cotización"
-            android:shadowRadius="10"
-            android:shadowColor="@color/black"
-            android:textColor="@color/white"
-            android:textSize="@dimen/_35ssp"
-            android:layout_marginRight="@dimen/_10sdp"
-            android:layout_marginTop="@dimen/_5sdp"
-            android:layout_marginBottom="@dimen/_5sdp"
-            android:textStyle="bold" />
-
-    </LinearLayout>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/header"
         android:layout_above="@+id/buttons">
 
     <LinearLayout
