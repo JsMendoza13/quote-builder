@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentContainer;
 import androidx.fragment.app.FragmentManager;
@@ -20,6 +21,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.ProgressBar;
@@ -27,22 +29,33 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.example.app_cotizacion.adapter.MaterialAdapter;
 import com.example.app_cotizacion.model.Material;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class cards extends Fragment {
     private RecyclerView mRecycler;
     private FirebaseFirestore db;
     private List<Material> materialList = new ArrayList<>();
     private MaterialAdapter mAdapter = new MaterialAdapter(materialList);
-    private Button calculate, reload, view_more, close;
+    private Button calculate, reload, view_more, close ;
     private View view;
     private ArrayList<Double> materialAmountList;
     private ProgressBar progressBar;
@@ -57,6 +70,12 @@ public class cards extends Fragment {
     public ArrayList<String> getMaterialNameArray() { return materialNameArray; }
     public ArrayList<Double> getMaterialPriceArray() { return materialPriceArray; }
     private ImageView back, profile;
+
+
+    private FirebaseAuth mAuth;
+    FirebaseFirestore fStore;
+
+
 
 
     public cards() {
@@ -86,17 +105,88 @@ public class cards extends Fragment {
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
         popupWindowProfile.setAnimationStyle(androidx.appcompat.R.style.Animation_AppCompat_Dialog);
-        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) Button close_profile = popupViewProfile.findViewById(R.id.close_profile);
+        @SuppressLint({"MissingInflatedId", "LocalSuppress"})
+        TextView view_profile = popupViewProfile.findViewById(R.id.view_profile);
+        TextView view_quote = popupViewProfile.findViewById(R.id.view_quote);
+        TextView logout = popupViewProfile.findViewById(R.id.logout);
+        Button close_profile = popupViewProfile.findViewById(R.id.close_profile);
+
+
+
+
         close_profile.setOnClickListener(view1 -> {
+
             popupWindowProfile.dismiss();
         });
         profile.setOnClickListener(view1 -> {
+
             popupWindowProfile.showAtLocation(view, Gravity.CENTER, 0, 0);
+
+
         });
+
+
 
         back.setOnClickListener(view1 -> {goBack();});
 
         db = FirebaseFirestore.getInstance();
+        mAuth = FirebaseAuth.getInstance();
+
+        // PopUp Data User
+        View popupProfile = getLayoutInflater().inflate(R.layout.profile_data_popup, null);
+
+        PopupWindow popupWindowProfileUser = new PopupWindow(popupProfile,
+                ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT);
+
+        popupWindowProfileUser.setAnimationStyle(androidx.appcompat.R.style.Animation_AppCompat_Dialog);
+        Button close_user = popupProfile.findViewById(R.id.BtnClose_user);
+
+
+        close_user.setOnClickListener(view1 -> {
+
+            popupWindowProfileUser.dismiss();
+            popupWindowProfile.showAtLocation(view, Gravity.CENTER, 0, 0);
+        });
+
+        view_profile.setOnClickListener(view1 ->  {
+            popupWindowProfile.dismiss();
+            popupWindowProfileUser.showAtLocation(view, Gravity.CENTER, 0, 0);
+
+            TextView name_user = popupProfile.findViewById(R.id.name_user);
+            TextView email_user = popupProfile.findViewById(R.id.email_user);
+            TextView answer_user = popupProfile.findViewById(R.id.answerLastname);
+            TextView answer_phone = popupProfile.findViewById(R.id.answerPhone);
+
+            FirebaseUser user = mAuth.getCurrentUser();
+            String userEmail = user.getUid();
+            DocumentReference documentReference = db.collection("Users").document(userEmail);
+
+            documentReference.get().addOnSuccessListener(documentSnapshot -> {
+                if (documentSnapshot.exists()) {
+                    name_user.setText(documentSnapshot.getString("Name"));
+                    email_user.setText(documentSnapshot.getString("Email"));
+                    answer_user.setText(documentSnapshot.getString("LastName"));
+                    answer_phone.setText(documentSnapshot.getString("Phone"));
+                }
+            }).addOnFailureListener(e -> {
+                Toast.makeText(getContext(), "Existe un error para cargar los datos...", Toast.LENGTH_SHORT).show();
+            });
+
+        });
+
+        //Sign Out
+
+        logout.setOnClickListener(view1 -> {
+            mAuth.signOut();
+            popupWindowProfile.dismiss();
+            FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            login fragment_login = new login();
+            fragmentTransaction.replace(R.id.container, fragment_login);
+            fragmentTransaction.commit();
+        });
+
+
 
 //        progressBar
 
@@ -228,6 +318,7 @@ public class cards extends Fragment {
         });
 
         close.setOnClickListener(v -> popupWindowT.dismiss());
+
 
         //Calculate---------------------------------------------
 

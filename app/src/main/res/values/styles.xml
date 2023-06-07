@@ -18,6 +18,8 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+
+
     <style name="edittext_style" parent="@android:style/Widget.EditText">
         <item name="android:backgroundTint">#1b325f</item>
     </style>

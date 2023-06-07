@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.example.app_cotizacion.app_introduction;
@@ -41,9 +42,10 @@ public class login extends Fragment {
 
     EditText inputEmail, inputPass;
     Button register, login;
-    ImageButton BtnGoogle;
 
     FirebaseAuth mAuth;
+
+    private LinearLayout googleSign_Btn;
     private GoogleSignInClient mGoogleSignInClient;
 
     public login() {
@@ -63,8 +65,8 @@ public class login extends Fragment {
         inputEmail = view.findViewById(R.id.editCorreo);
         inputPass = view.findViewById(R.id.editPass);
         login = view.findViewById(R.id.btnLogin);
-        BtnGoogle = view.findViewById(R.id.BtnGoogleSign);
         register = view.findViewById(R.id.register);
+        googleSign_Btn = view.findViewById(R.id.BtnGoogleSign);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -115,7 +117,7 @@ public class login extends Fragment {
         });
 
         // Función del botón de inicio de sesión con Google
-        BtnGoogle.setOnClickListener(new View.OnClickListener() {
+        googleSign_Btn.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick (View view){
@@ -206,7 +208,7 @@ public class login extends Fragment {
         fragmentTransaction.commit();
     }
 
-/*
+
     @Override
     public void onStart() {
         super.onStart();
@@ -220,7 +222,6 @@ public class login extends Fragment {
         }
     }
 
-*/
 
     // Este método muestra un error en un EditText
     private void showError(EditText input, String errorMessage) {
