@@ -68,6 +68,7 @@
                     android:layout_height="wrap_content"
                     android:hint="Cantidad"
                     android:inputType="number"
+                    android:textColor="@color/black"
                     tools:ignore="TouchTargetSizeCheck"
                     style="@style/edittext_style"/>
 

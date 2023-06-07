@@ -116,30 +116,37 @@
                     android:text="Registrarme" />
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:id="@+id/BtnGoogleSign"
+                    android:layout_width="@dimen/_221sdp"
+                    android:layout_height="@dimen/_48sdp"
+                    android:layout_margin="@dimen/_11sdp"
                     android:orientation="horizontal"
-                    android:layout_marginTop="20dp"
+                   style="@style/button_style"
                     android:gravity="center">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/_10sdp"
-                        android:textSize="@dimen/_13ssp"
-                        android:textColor="@color/white"
+                        android:layout_margin="@dimen/_5sdp"
+                        android:textSize="@dimen/_15ssp"
+                        android:textColor="#27498b"
                         android:text="Iniciar con google" />
 
                     <ImageButton
-                        android:id="@+id/BtnGoogleSign"
+
                         android:layout_width="48dp"
                         android:layout_height="48dp"
-                        android:background="#1F2633"
+                        android:background="#f2f2f2"
                         android:scaleType="fitCenter"
+                        android:layout_margin="@dimen/_5sdp"
                         app:srcCompat="@drawable/google_v2"
                         tools:ignore="SpeakableTextPresentCheck" />
 
+
                 </LinearLayout>
+
+
+
 
             </LinearLayout>
 
