@@ -177,6 +177,8 @@ public class total extends Fragment {
         AlertDialog alertDialog = alert.create();
 
         cancel.setOnClickListener(v -> {
+            InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
             alertDialog.dismiss();
         });
 

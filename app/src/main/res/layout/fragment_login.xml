@@ -138,7 +138,7 @@
                         android:layout_height="48dp"
                         android:background="#f2f2f2"
                         android:scaleType="fitCenter"
-                        android:layout_margin="@dimen/_5sdp"
+                        android:layout_margin="@dimen/_7sdp"
                         app:srcCompat="@drawable/google_v2"
                         tools:ignore="SpeakableTextPresentCheck" />
 

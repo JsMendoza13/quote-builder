@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_10sdp"
             android:inputType="text"
-            android:hint="Campo a rellenar"
+            android:hint="Ingresar nombre"
             tools:ignore="TouchTargetSizeCheck" />
 
         <LinearLayout
