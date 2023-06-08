@@ -3,6 +3,7 @@ package com.example.app_cotizacion;
 import android.graphics.Color;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -22,27 +23,37 @@ import android.widget.Toast;
 
 import com.example.app_cotizacion.adapter.MaterialAdapter;
 import com.example.app_cotizacion.model.Material;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 public class total extends Fragment {
     private View view;
     private TextView total, confirm_text;
-    private Button newQuoteBuild;
+    private Button newQuoteBuild, saveQuoteBuild;
     private TableLayout table;
     private cards cards = new cards();
     private ArrayList<String> materialNameList = new ArrayList<>();
     private double[] materialAmountArray;
     private double[] materialPriceArray;
     private double[] materialTotalPriceA;
-    private double totalAll;
+    private String totalAll;
+    private DecimalFormat  doubleFormat = new DecimalFormat("#.##");
+    List<String> nameList = new ArrayList<>();
+    List<Double> amountList = new ArrayList<>(), priceList = new ArrayList<>(), totalList = new ArrayList<>();
     private List<Material> materialList = new ArrayList<>();
     private MaterialAdapter adapter = new MaterialAdapter(materialList);
 
@@ -63,6 +74,7 @@ public class total extends Fragment {
         total = view.findViewById(R.id.total);
         newQuoteBuild = view.findViewById(R.id.newQuoteBuild);
         table = view.findViewById(R.id.table);
+        saveQuoteBuild = view.findViewById(R.id.SaveQuoteBuild);
 
 //        TableLayout--------------------------------------------
 
@@ -72,7 +84,7 @@ public class total extends Fragment {
            materialAmountArray = bundle.getDoubleArray("amounts");
            materialPriceArray = bundle.getDoubleArray("prices");
            materialTotalPriceA = bundle.getDoubleArray("totals");
-           totalAll = bundle.getDouble("total");
+           totalAll = bundle.getString("total");
        }
 
         System.out.println("Names "+materialNameList);
@@ -80,7 +92,7 @@ public class total extends Fragment {
         System.out.println("price "+Arrays.toString(materialPriceArray));
         System.out.println("total "+Arrays.toString(materialTotalPriceA));
 
-        total.setText("$"+String.valueOf(totalAll));
+        total.setText("$"+totalAll);
         System.out.println("totalAll "+totalAll);
 
         for (int i = 0; i < materialNameList.size(); i++) {
@@ -103,13 +115,18 @@ public class total extends Fragment {
             if (!(materialNameList.get(i) == "" || materialAmountArray[i] == 0.0 || materialPriceArray[i] == 0.0 || materialTotalPriceA[i] == 0.0)) {
                 name.setText(String.valueOf(materialNameList.get(i)));
                 tableRow.addView(name);
-                amount.setText(String.valueOf(materialAmountArray[i]));
+                amount.setText(doubleFormat.format(materialAmountArray[i]));
                 tableRow.addView(amount);
-                price.setText("$"+String.valueOf(materialPriceArray[i]));
+                price.setText("$"+doubleFormat.format(materialPriceArray[i]));
                 tableRow.addView(price);
-                total_price.setText("$"+String.valueOf(materialTotalPriceA[i]));
+                total_price.setText("$"+doubleFormat.format(materialTotalPriceA[i]));
                 tableRow.addView(total_price);
                 table.addView(tableRow);
+
+                nameList.add(materialNameList.get(i));
+                amountList.add(materialAmountArray[i]);
+                priceList.add(materialPriceArray[i]);
+                totalList.add(materialTotalPriceA[i]);
             }
         }
 
@@ -141,6 +158,46 @@ public class total extends Fragment {
         no.setOnClickListener(v -> popupWindow2.dismiss());
 
         newQuoteBuild.setOnClickListener(v -> popupWindow2.showAtLocation(view, Gravity.CENTER, 0, 0));
+
+        saveQuoteBuild.setOnClickListener(v -> {
+            FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+            String userID = firebaseAuth.getCurrentUser().getUid();
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            DocumentReference saveQBdocRef = db.collection("saveQB").document(userID);
+
+            Map<String, Object> logs = new HashMap<>();
+            List<Map<String, Object>> logsArray = new ArrayList<>();
+
+            for (int i = 0; i < nameList.size(); i++) {
+                Map<String, Object> log = new HashMap<>();
+                log.put("name", nameList.get(i));
+                log.put("amount", amountList.get(i));
+                log.put("price", priceList.get(i));
+                log.put("totalXmaterial", totalList.get(i));
+                logsArray.add(log);
+            }
+            System.out.println("nameList"+nameList);
+            System.out.println("amountList"+amountList);
+            System.out.println("priceList"+priceList);
+            System.out.println("totalxmaterial"+totalList);
+
+            logs.put("total", totalAll);
+            logs.put("logs", logsArray);
+
+            saveQBdocRef.collection("logs").add(logs)
+                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                        @Override
+                        public void onSuccess(DocumentReference documentReference) {
+                            Toast.makeText(getContext(), "Guardado correctamente.", Toast.LENGTH_SHORT).show();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(getContext(), "Error al guardar.", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        });
 
         return view;
     }

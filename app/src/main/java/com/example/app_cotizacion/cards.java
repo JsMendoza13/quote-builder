@@ -3,6 +3,7 @@ package com.example.app_cotizacion;
 import static android.content.ContentValues.TAG;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -20,6 +21,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -62,8 +64,8 @@ public class cards extends Fragment {
     private TextView val_total;
     private ArrayList<String> materialNameArray = new ArrayList<>();
     private ArrayList<Double> materialPriceArray = new ArrayList<>();
-    private double totalD, materialPrice;
-    private String materialName;
+    private double materialPrice;
+    private String materialName, totalS;
     private  boolean[] selectedItems;
     private ArrayList<String> nameArray = new ArrayList<>();
     private ArrayList<Double> priceArray = new ArrayList<>();
@@ -74,8 +76,6 @@ public class cards extends Fragment {
 
     private FirebaseAuth mAuth;
     FirebaseFirestore fStore;
-
-
 
 
     public cards() {
@@ -119,6 +119,8 @@ public class cards extends Fragment {
             popupWindowProfile.dismiss();
         });
         profile.setOnClickListener(view1 -> {
+            InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view1.getWindowToken(), 0);
 
             popupWindowProfile.showAtLocation(view, Gravity.CENTER, 0, 0);
 
@@ -174,16 +176,39 @@ public class cards extends Fragment {
 
         });
 
-        //Sign Out
+        //confirm logout
 
-        logout.setOnClickListener(view1 -> {
+        View pvConfirmLogout = getLayoutInflater().inflate(R.layout.confirm_popup, null);
+        PopupWindow pwConfirmLogout = new PopupWindow(pvConfirmLogout,
+                ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT);
+
+        pwConfirmLogout.setAnimationStyle(androidx.appcompat.R.style.Animation_AppCompat_Dialog);
+        TextView confirmTxt = pvConfirmLogout.findViewById(R.id.confirm_text);
+        Button clYes = pvConfirmLogout.findViewById(R.id.yes);
+        Button clNo = pvConfirmLogout.findViewById(R.id.no);
+
+        confirmTxt.setText("¿Desea cerrar sesión?");
+
+        clYes.setOnClickListener(v -> {
             mAuth.signOut();
-            popupWindowProfile.dismiss();
+            pwConfirmLogout.dismiss();
             FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             login fragment_login = new login();
             fragmentTransaction.replace(R.id.container, fragment_login);
             fragmentTransaction.commit();
+        });
+
+        clNo.setOnClickListener(v ->{
+            pwConfirmLogout.dismiss();
+            popupWindowProfile.showAtLocation(view, Gravity.CENTER, 0, 0);
+        });
+
+        //Sign Out
+
+        logout.setOnClickListener(view1 -> {
+            popupWindowProfile.dismiss();
+            pwConfirmLogout.showAtLocation(view, Gravity.CENTER, 0, 0);
         });
 
 
@@ -301,7 +326,7 @@ public class cards extends Fragment {
                 priceArray[i] = getMaterialPriceArray().get(i);
                 totalArray[i] = mAdapter.getMaterialTotalPrice().get(i);
             }
-            bundle.putDouble("total", totalD);
+            bundle.putString("total", totalS);
             bundle.putDoubleArray("amounts", amountArray);
             bundle.putDoubleArray("prices", priceArray);
             bundle.putDoubleArray("totals", totalArray);
@@ -323,6 +348,8 @@ public class cards extends Fragment {
         //Calculate---------------------------------------------
 
         calculate.setOnClickListener(v -> {
+            InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
             materialAmountList = mAdapter.getMaterialAmountList();
             double plus = 0;
             for (int i = 0; i<materialAmountList.size(); i++){
@@ -331,12 +358,12 @@ public class cards extends Fragment {
             if (plus == 0.0 ){
                 Toast.makeText(getContext(), "Selecciona un material y agrega un valor diferente a 0", Toast.LENGTH_SHORT).show();
             }else {
-                totalD = mAdapter.calculateTotal();
+                totalS = mAdapter.calculateTotal();
                 System.out.println("ArrayAmount: " + mAdapter.getMaterialAmountList());
-                System.out.println("Total: " + totalD);
+                System.out.println("Total: " + totalS);
                 System.out.println("Elementos: " + mAdapter.getItemCount());
 
-                val_total.setText("$"+String.valueOf(totalD));
+                val_total.setText("$"+totalS);
 //                ------------------------------------------------------
                 selectedItems = new boolean [mAdapter.getMaterialSelectedList().size()];
                 for (int i = 0; i < selectedItems.length; i++) {

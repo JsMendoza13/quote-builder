@@ -81,6 +81,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/_15sdp"
+            android:textSize="@dimen/_13sdp"
             android:text="Rehacer"
             android:layout_marginBottom="@dimen/_2sdp"
             tools:ignore="TextContrastCheck" />
@@ -91,9 +92,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/_15sdp"
+            android:textSize="@dimen/_13sdp"
             android:text="Calcular"
             android:layout_marginBottom="@dimen/_2sdp"
-            android:drawableRight="@drawable/arrow" />
+            android:drawableRight="@drawable/arrow"
+            android:drawablePadding="1dp"/>
 
     </LinearLayout>
 

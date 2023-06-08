@@ -21,6 +21,7 @@ import com.example.app_cotizacion.R;
 import com.example.app_cotizacion.model.Material;
 import com.google.android.material.card.MaterialCardView;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -134,8 +135,10 @@ public class MaterialAdapter extends RecyclerView.Adapter<MaterialAdapter.ViewHo
             });
         }
     }
-    public double calculateTotal() {
+    public String calculateTotal() {
         double total = 0.0;
+        DecimalFormat doubleFormat;
+        String formatTotal = "";
         if (materialAmountList.size() == materialList.size()) {
             for (int i = 0; i < materialAmountList.size(); i++) {
                 double amount = materialAmountList.get(i);
@@ -143,8 +146,10 @@ public class MaterialAdapter extends RecyclerView.Adapter<MaterialAdapter.ViewHo
                 materialTotalPrice.set(i, multiplication);
                 total += multiplication;
             }
+            doubleFormat = new DecimalFormat("#.##");
+            formatTotal = doubleFormat.format(total);
         }
-        return total;
+        return formatTotal;
     }
 }
 

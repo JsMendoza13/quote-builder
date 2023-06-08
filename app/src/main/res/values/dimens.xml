@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="ic_launcher_background">#002442</color>
+    <dimen name="drawable_padding">1dp</dimen>
 </resources>
