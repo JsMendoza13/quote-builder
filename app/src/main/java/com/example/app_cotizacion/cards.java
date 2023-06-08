@@ -112,10 +112,16 @@ public class cards extends Fragment {
         Button close_profile = popupViewProfile.findViewById(R.id.close_profile);
 
 
-
+        view_quote.setOnClickListener(v -> {
+            FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            view_quote fragment_viewQ = new view_quote();
+            fragmentTransaction.replace(R.id.container, fragment_viewQ);
+            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.commit();
+        });
 
         close_profile.setOnClickListener(view1 -> {
-
             popupWindowProfile.dismiss();
         });
         profile.setOnClickListener(view1 -> {
