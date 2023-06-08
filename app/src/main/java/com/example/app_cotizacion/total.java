@@ -1,5 +1,8 @@
 package com.example.app_cotizacion;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -13,7 +16,10 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.PopupWindow;
 import android.widget.ScrollView;
 import android.widget.TableLayout;
@@ -159,44 +165,72 @@ public class total extends Fragment {
 
         newQuoteBuild.setOnClickListener(v -> popupWindow2.showAtLocation(view, Gravity.CENTER, 0, 0));
 
-        saveQuoteBuild.setOnClickListener(v -> {
+//        SaveQB
+
+        AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
+        LayoutInflater inflater1 = getActivity().getLayoutInflater();
+        View view1 = inflater1.inflate(R.layout.popup_save_qb, null);
+        EditText saveName = view1.findViewById(R.id.nameQB);
+        Button save = view1.findViewById(R.id.saveQB);
+        Button cancel = view1.findViewById(R.id.cancel);
+        alert.setView(view1);
+        AlertDialog alertDialog = alert.create();
+
+        cancel.setOnClickListener(v -> {
+            alertDialog.dismiss();
+        });
+
+        save.setOnClickListener(v -> {
             FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
             String userID = firebaseAuth.getCurrentUser().getUid();
             FirebaseFirestore db = FirebaseFirestore.getInstance();
             DocumentReference saveQBdocRef = db.collection("saveQB").document(userID);
 
-            Map<String, Object> logs = new HashMap<>();
-            List<Map<String, Object>> logsArray = new ArrayList<>();
+            String edSaveName = saveName.getText().toString();
 
-            for (int i = 0; i < nameList.size(); i++) {
-                Map<String, Object> log = new HashMap<>();
-                log.put("name", nameList.get(i));
-                log.put("amount", amountList.get(i));
-                log.put("price", priceList.get(i));
-                log.put("totalXmaterial", totalList.get(i));
-                logsArray.add(log);
+            if (!edSaveName.isEmpty()) {
+                Map<String, Object> logs = new HashMap<>();
+                List<Map<String, Object>> logsArray = new ArrayList<>();
+
+                for (int i = 0; i < nameList.size(); i++) {
+                    Map<String, Object> log = new HashMap<>();
+                    log.put("name", nameList.get(i));
+                    log.put("amount", amountList.get(i));
+                    log.put("price", priceList.get(i));
+                    log.put("totalXmaterial", totalList.get(i));
+                    logsArray.add(log);
+                }
+                System.out.println("nameList"+nameList);
+                System.out.println("amountList"+amountList);
+                System.out.println("priceList"+priceList);
+                System.out.println("totalxmaterial"+totalList);
+
+                logs.put("total", totalAll);
+                logs.put(edSaveName, logsArray);
+
+                saveQBdocRef.collection("logs").add(logs)
+                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                            @Override
+                            public void onSuccess(DocumentReference documentReference) {
+                                Toast.makeText(getContext(), "Guardado correctamente.", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(getContext(), "Error al guardar.", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                alertDialog.dismiss();
+            } else {
+                Toast.makeText(getContext(), "Debe agregar un nombre para continuar.", Toast.LENGTH_SHORT).show();
             }
-            System.out.println("nameList"+nameList);
-            System.out.println("amountList"+amountList);
-            System.out.println("priceList"+priceList);
-            System.out.println("totalxmaterial"+totalList);
+        });
 
-            logs.put("total", totalAll);
-            logs.put("logs", logsArray);
-
-            saveQBdocRef.collection("logs").add(logs)
-                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                        @Override
-                        public void onSuccess(DocumentReference documentReference) {
-                            Toast.makeText(getContext(), "Guardado correctamente.", Toast.LENGTH_SHORT).show();
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(getContext(), "Error al guardar.", Toast.LENGTH_SHORT).show();
-                        }
-                    });
+        saveQuoteBuild.setOnClickListener(v -> {
+            alertDialog.show();
         });
 
         return view;

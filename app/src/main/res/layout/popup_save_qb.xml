@@ -1,0 +1,59 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="@dimen/_230sdp"
+    android:layout_height="wrap_content"
+    android:background="@drawable/background_button_two"
+    android:padding="@dimen/_10sdp"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:layout_centerInParent="true">
+
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="@color/sky_blue"
+            android:text="Ingrese el nombre de la cotización"
+            android:textSize="@dimen/_17ssp"
+            android:textStyle="bold"/>
+
+        <EditText
+            android:id="@+id/nameQB"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:inputType="text"
+            android:hint="Campo a rellenar"
+            tools:ignore="TouchTargetSizeCheck" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/saveQB"
+                style="@style/button_style3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/_5sdp"
+                android:background="@drawable/background_button_two"
+                android:text="Guardar"
+                android:textSize="@dimen/_13sdp"
+                tools:ignore="TouchTargetSizeCheck" />
+
+            <Button
+                android:id="@+id/cancel"
+                style="@style/button_style3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/_13sdp"
+                android:background="@drawable/background_button_two"
+                android:text="Cancelar"
+                tools:ignore="TouchTargetSizeCheck" />
+
+        </LinearLayout>
+
+    </LinearLayout>
