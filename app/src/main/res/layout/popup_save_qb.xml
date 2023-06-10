@@ -47,7 +47,7 @@
 
             <Button
                 android:id="@+id/cancel"
-                style="@style/button_style3"
+                style="@style/button_style2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/_13sdp"

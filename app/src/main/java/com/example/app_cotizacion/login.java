@@ -45,7 +45,7 @@ public class login extends Fragment {
 
     FirebaseAuth mAuth;
 
-    private LinearLayout googleSign_Btn;
+    ImageButton googleSign_Btn;
     private GoogleSignInClient mGoogleSignInClient;
 
     public login() {
