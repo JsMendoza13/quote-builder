@@ -115,35 +115,29 @@
                     style="@style/button_style"
                     android:text="Registrarme" />
 
-                <LinearLayout
-                    android:id="@+id/BtnGoogleSign"
-                    android:layout_width="@dimen/_221sdp"
-                    android:layout_height="@dimen/_48sdp"
-                    android:layout_margin="@dimen/_11sdp"
-                    android:orientation="horizontal"
-                   style="@style/button_style"
-                    android:gravity="center">
+
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/_5sdp"
                         android:textSize="@dimen/_15ssp"
-                        android:textColor="#27498b"
-                        android:text="Iniciar con google" />
+                        android:textStyle="italic"
+                        android:textColor="#C3C3C3"
+                        android:text="Tambien puedes iniciar con" />
 
                     <ImageButton
-
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:background="#f2f2f2"
+                        android:id="@+id/BtnGoogleSign"
+                        android:layout_width="38dp"
+                        android:layout_height="38dp"
+                        android:background="#1F2633"
                         android:scaleType="fitCenter"
                         android:layout_margin="@dimen/_7sdp"
                         app:srcCompat="@drawable/google_v2"
                         tools:ignore="SpeakableTextPresentCheck" />
 
 
-                </LinearLayout>
+
 
 
 

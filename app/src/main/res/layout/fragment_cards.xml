@@ -15,12 +15,13 @@
         android:gravity="center"
         android:layout_alignParentTop="true"
         android:background="#1F2633">
+
         <ImageView
             android:id="@+id/back"
-            android:layout_width="@dimen/_30sdp"
-            android:layout_height="@dimen/_65sdp"
-            android:layout_marginRight="@dimen/_10sdp"
+            android:layout_width="@dimen/_45sdp"
+            android:layout_height="@dimen/_45sdp"
             android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginRight="@dimen/_10sdp"
             android:layout_marginBottom="@dimen/_5sdp"
             android:src="@drawable/back_arrow"
             tools:ignore="ImageContrastCheck" />
@@ -78,12 +79,12 @@
         <Button
             android:id="@+id/reload"
             style="@style/button_style3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="143dp"
+            android:layout_height="63dp"
             android:layout_marginRight="@dimen/_15sdp"
-            android:textSize="@dimen/_13sdp"
-            android:text="Rehacer"
             android:layout_marginBottom="@dimen/_2sdp"
+            android:text="Rehacer"
+            android:textSize="@dimen/_13sdp"
             tools:ignore="TextContrastCheck" />
 
         <Button
@@ -96,7 +97,7 @@
             android:text="Calcular"
             android:layout_marginBottom="@dimen/_2sdp"
             android:drawableRight="@drawable/arrow"
-            android:drawablePadding="1dp"/>
+            />
 
     </LinearLayout>
 
