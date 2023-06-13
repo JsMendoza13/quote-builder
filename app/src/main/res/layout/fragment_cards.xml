@@ -44,11 +44,8 @@
             android:layout_marginRight="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_5sdp"
             android:layout_marginBottom="@dimen/_5sdp"
-            android:src="@drawable/prifile"
+            android:src="@drawable/profile"
             tools:ignore="ImageContrastCheck" />
-
-
-
 
     </LinearLayout>
 

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/material_cv"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:animateLayoutChanges="true"
+    app:cardCornerRadius="@dimen/_15sdp"
+    app:strokeColor="#1b315e"
+    app:strokeWidth="@dimen/_2sdp"
+    app:cardElevation="@dimen/_4sdp"
+    app:cardUseCompatPadding="true">
+
+    <LinearLayout
+        android:id="@+id/containerCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/_10sdp"
+        android:background="#085794">
+
+        <TextView
+            android:id="@+id/logName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Name"
+            android:layout_gravity="center"
+            android:textSize="@dimen/_15ssp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:textStyle="bold"
+            android:textColor="@color/white"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewLA"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#252C39" />
+
+        <TextView
+            android:id="@+id/Total"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Total"
+            android:layout_gravity="center"
+            android:textSize="@dimen/_15ssp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:textStyle="bold"
+            android:textColor="@color/white"/>
+
+    </LinearLayout>
+
+</com.google.android.material.card.MaterialCardView>

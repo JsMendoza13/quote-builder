@@ -52,6 +52,7 @@ public class total extends Fragment {
     private Button newQuoteBuild, saveQuoteBuild;
     private TableLayout table;
     private cards cards = new cards();
+    private ArrayList<String> materialImgList = new ArrayList<>();
     private ArrayList<String> materialNameList = new ArrayList<>();
     private double[] materialAmountArray;
     private double[] materialPriceArray;
@@ -86,13 +87,14 @@ public class total extends Fragment {
 
        Bundle bundle = getArguments();
        if (bundle != null) {
+           materialImgList = bundle.getStringArrayList("imgs");
            materialNameList = bundle.getStringArrayList("names");
            materialAmountArray = bundle.getDoubleArray("amounts");
            materialPriceArray = bundle.getDoubleArray("prices");
            materialTotalPriceA = bundle.getDoubleArray("totals");
            totalAll = bundle.getString("total");
        }
-
+        System.out.println("Imgs: "+ materialImgList);
         System.out.println("Names "+materialNameList);
         System.out.println("amount "+ Arrays.toString(materialAmountArray));
         System.out.println("price "+Arrays.toString(materialPriceArray));
@@ -196,6 +198,7 @@ public class total extends Fragment {
 
                 for (int i = 0; i < nameList.size(); i++) {
                     Map<String, Object> log = new HashMap<>();
+                    log.put("img", materialImgList.get(i));
                     log.put("name", nameList.get(i));
                     log.put("amount", amountList.get(i));
                     log.put("price", priceList.get(i));
@@ -208,7 +211,8 @@ public class total extends Fragment {
                 System.out.println("totalxmaterial"+totalList);
 
                 logs.put("total", totalAll);
-                logs.put(edSaveName, logsArray);
+                logs.put("logName", edSaveName);
+                logs.put("logsArray", logsArray);
 
                 saveQBdocRef.collection("logs").add(logs)
                         .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {

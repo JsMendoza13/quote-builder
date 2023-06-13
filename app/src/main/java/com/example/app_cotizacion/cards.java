@@ -63,12 +63,15 @@ public class cards extends Fragment {
     private ProgressBar progressBar;
     private TextView val_total;
     private ArrayList<String> materialNameArray = new ArrayList<>();
+    private ArrayList<String> materialImgArray = new ArrayList<>();
     private ArrayList<Double> materialPriceArray = new ArrayList<>();
     private double materialPrice;
     private String materialName, totalS;
     private  boolean[] selectedItems;
+    private ArrayList<String> imgArray = new ArrayList<>();
     private ArrayList<String> nameArray = new ArrayList<>();
     private ArrayList<Double> priceArray = new ArrayList<>();
+    public ArrayList<String> getMaterialImgArray() { return materialImgArray; }
     public ArrayList<String> getMaterialNameArray() { return materialNameArray; }
     public ArrayList<Double> getMaterialPriceArray() { return materialPriceArray; }
     private ImageView back, profile;
@@ -115,10 +118,11 @@ public class cards extends Fragment {
         view_quote.setOnClickListener(v -> {
             FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            view_quote fragment_viewQ = new view_quote();
-            fragmentTransaction.replace(R.id.container, fragment_viewQ);
+            logs_view fragment_viewQ = new logs_view();
+            fragmentTransaction.replace(R.id.container2, fragment_viewQ);
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
+            popupWindowProfile.dismiss();
         });
 
         close_profile.setOnClickListener(view1 -> {
@@ -250,6 +254,7 @@ public class cards extends Fragment {
                 String materialStatus = documentSnapshot.getString("materialStatus");
 
                 Material item = new Material(materialImg, materialName, materialPrice, materialStatus);
+                imgArray.add(materialImg);
                 nameArray.add(materialName);
                 priceArray.add(materialPrice);
                 materialList.add(item);
@@ -308,12 +313,14 @@ public class cards extends Fragment {
             for (int i = 0; i < selectedItems.length; i++) {
                 materialNameArray.add("");
                 materialPriceArray.add(0.0);
+                materialImgArray.add("");
             }
             System.out.println("SelectedItems "+ Arrays.toString(mAdapter.getMaterialSelectedList().toArray()));
             for (int i = 0; i < selectedItems.length; i++) {
                 if (materialAmountList.get(i) != 0.0) {
                     materialNameArray.set(i, nameArray.get(i));
                     materialPriceArray.set(i, priceArray.get(i));
+                    materialImgArray.set(i, imgArray.get(i));
                 }
             }
             System.out.println("Table");
@@ -323,6 +330,7 @@ public class cards extends Fragment {
             System.out.println("total "+mAdapter.getMaterialTotalPrice());
 
             Bundle bundle = new Bundle();
+            bundle.putStringArrayList("imgs", getMaterialImgArray());
             bundle.putStringArrayList("names", getMaterialNameArray());
             double[] amountArray = new double[mAdapter.getMaterialAmountList().size()];
             double[] priceArray = new double[getMaterialPriceArray().size()];

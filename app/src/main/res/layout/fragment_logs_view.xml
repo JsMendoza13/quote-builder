@@ -4,17 +4,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#1F2633"
-    tools:context=".view_quote">
+    tools:context=".logs_view">
 
     <TextView
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Registro de cotizaciones"
-        android:textSize="@dimen/_30ssp"
-        android:gravity="center"
-        android:layout_marginTop="@dimen/_10sdp"
-        android:layout_marginBottom="@dimen/_10sdp"
+        android:textSize="@dimen/_20ssp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/_5sdp"
+        android:layout_marginBottom="@dimen/_5sdp"
         android:textStyle="bold"
         android:shadowRadius="10"
         android:textColor="@color/white"/>
