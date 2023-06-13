@@ -23,13 +23,18 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.Executor;
 
 public class login extends Fragment {
@@ -178,8 +183,41 @@ public class login extends Fragment {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            irHome();
                             FirebaseUser user = mAuth.getCurrentUser();
+                            if (user != null) {
+                                // Obtener los datos del usuario de Google
+                                String uid = user.getUid();
+                                String displayName = user.getDisplayName();
+                                String email = user.getEmail();
+                                String[] nameParts = displayName.split(" ");
+                                String firstName = nameParts[0];
+                                String lastName = nameParts.length > 1 ? nameParts[1] : "";
+
+                                // Crear un objeto con los datos del usuario
+                                Map<String, Object> userData = new HashMap<>();
+                                userData.put("Email", email);
+                                userData.put("LastName", lastName);
+                                userData.put("Name", firstName);
+                                userData.put("Phone", "");
+                                FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+                                // Guardar los datos del usuario en Firestore
+                                db.collection("Users").document(uid)
+                                        .set(userData)
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                // Los datos del usuario se guardaron exitosamente en Firestore
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                // Error al guardar los datos del usuario en Firestore
+                                            }
+                                        });
+                            }
+                            irHome();
                             updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
@@ -189,6 +227,7 @@ public class login extends Fragment {
                     }
                 });
     }
+
 
     private void updateUI(FirebaseUser user) {
         user = mAuth.getCurrentUser();
