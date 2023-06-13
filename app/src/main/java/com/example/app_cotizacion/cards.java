@@ -116,15 +116,15 @@ public class cards extends Fragment {
 
 
         view_quote.setOnClickListener(v -> {
+            popupWindowProfile.dismiss();
             FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             logs_view fragment_viewQ = new logs_view();
             fragmentTransaction.replace(R.id.container2, fragment_viewQ);
             fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
-            popupWindowProfile.dismiss();
-        });
 
+        });
         close_profile.setOnClickListener(view1 -> {
             popupWindowProfile.dismiss();
         });

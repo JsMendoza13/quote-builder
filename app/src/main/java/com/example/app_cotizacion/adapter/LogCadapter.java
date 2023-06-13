@@ -56,7 +56,7 @@ public class LogCadapter extends RecyclerView.Adapter<LogCadapter.LogCviewHolder
     public void onBindViewHolder(@NonNull LogCadapter.LogCviewHolder holder, int position) {
         LogContainer logContainer = logContainers.get(position);
         holder.nameC.setText(logContainer.getNameC());
-        holder.totalC.setText("$"+logContainer.getTotalC());
+        holder.totalC.setText("TOTAL: $"+logContainer.getTotalC());
     }
 
     @Override

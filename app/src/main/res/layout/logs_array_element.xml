@@ -46,7 +46,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Material"
-                    android:textColor="@color/white"
+                    android:textColor="#e5a200"
                     android:textSize="@dimen/_15ssp"
                     android:textStyle="bold" />
 
